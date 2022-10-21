@@ -4,6 +4,8 @@ import android.content.Context
 import com.example.learningblibli.BuildConfig
 import com.example.learningblibli.data.repository.MealRepository
 import com.example.learningblibli.data.source.local.LocalDataSource
+import com.example.learningblibli.data.source.local.room.MealDao
+import com.example.learningblibli.data.source.local.room.MealDatabase
 import com.example.learningblibli.data.source.remote.RemoteDataSource
 import com.example.learningblibli.data.source.remote.network.ApiConfig
 import com.example.learningblibli.data.source.remote.network.ApiService
@@ -19,15 +21,15 @@ import java.util.concurrent.TimeUnit
 object Injection {
 
     private fun provideLocalDataSource(context: Context):LocalDataSource{
-        return LocalDataSource()
+        return LocalDataSource(provideMealDao(context))
     }
 
-//    private fun provideMealDao(context: Context): MealDao {
-//        return provideMealDatabase(context).mealDao()
-//    }
-//    private fun provideMealDatabase(context: Context):MealDatabase{
-//        return MealDatabase.getDatabase(context)
-//    }
+    private fun provideMealDao(context: Context): MealDao {
+        return provideMealDatabase(context).mealDao()
+    }
+    private fun provideMealDatabase(context: Context):MealDatabase{
+        return MealDatabase.getDatabase(context)
+    }
     fun provideGetFavoriteMealUseCase(context: Context):GetFavoriteMealUsecase{
         return GetFavoriteMealUsecase(provideMealRepository(context))
     }

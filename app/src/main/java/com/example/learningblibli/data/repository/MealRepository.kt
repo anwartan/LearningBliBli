@@ -12,7 +12,6 @@ import com.example.learningblibli.utils.mapper.MealMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class MealRepository(private val remoteDataSource: RemoteDataSource,private val localDataSource: LocalDataSource):IMealRepository {
     override fun getAllMealsByFirstLetter(firstLetter: String): Flow<Resource<List<Meal>>> {
@@ -56,21 +55,20 @@ class MealRepository(private val remoteDataSource: RemoteDataSource,private val 
 
 
     override fun setFavoriteMeal(meal: Meal, status: Boolean):Flow<Boolean>  = flow{
-//        val mealEntities = localDataSource.getMealById(meal.idMeal).first()
-//        if(mealEntities==null){
-//            val newMealEntity = MealMapper.mapModelToEntity(meal)
-//            newMealEntity.isFavorite=status
-//            localDataSource.insertMeal(newMealEntity)
-//        }else{
-//            if(mealEntities.isFavorite==status){
-//                emit(false)
-//            }
-//            localDataSource.setFavoriteMeal(mealEntities.idMeal,status)
-//        }
-//        val newMealEntity = MealMapper.mapModelToEntity(meal)
-//            newMealEntity.isFavorite=status
-//        localDataSource.insertMeal(newMealEntity)
-        emit(true)
+        val mealEntities = localDataSource.getMealById(meal.idMeal).first()
+        if(mealEntities==null){
+            val newMealEntity = MealMapper.mapModelToEntity(meal)
+            newMealEntity.isFavorite=status
+            localDataSource.insertMeal(newMealEntity)
+        }else{
+            if(mealEntities.isFavorite==status){
+                emit(false)
+            }
+            localDataSource.setFavoriteMeal(mealEntities.idMeal,status)
+        }
+        val newMealEntity = MealMapper.mapModelToEntity(meal)
+            newMealEntity.isFavorite=status
+        localDataSource.insertMeal(newMealEntity)
     }
 
     override fun getFavoriteMeals(): Flow<List<Meal>> = flow {
