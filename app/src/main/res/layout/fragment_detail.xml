@@ -15,8 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
             app:expandedTitleMarginBottom="28dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:contentScrim="?attr/colorPrimary"
+            app:statusBarScrim="?attr/colorPrimaryVariant"
+            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             >
 
             <ImageView
@@ -28,7 +32,11 @@
                 app:layout_collapseMode="parallax"
                 android:contentDescription="@string/poster" />
 
-            <com.google.android.material.appbar.MaterialToolbar
+            <View
+                android:background="@drawable/background_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Toolbar
                 android:id="@+id/toolbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
@@ -56,29 +64,11 @@
                     android:id="@+id/btn_favorite"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btn_watch"
                     android:text="@string/favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_watch"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btn_favorite"
-                    app:layout_constraintEnd_toStartOf="@id/btn_share"
-                    android:text="@string/watchlist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_share"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btn_watch"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -1,12 +1,13 @@
 package com.example.learningblibli.di
 
+import android.content.Context
 import com.example.learningblibli.BuildConfig
-import com.example.learningblibli.data.repository.MovieRepository
+import com.example.learningblibli.data.repository.MealRepository
+import com.example.learningblibli.data.source.local.LocalDataSource
 import com.example.learningblibli.data.source.remote.RemoteDataSource
 import com.example.learningblibli.data.source.remote.network.ApiConfig
 import com.example.learningblibli.data.source.remote.network.ApiService
-import com.example.learningblibli.domain.usecase.MovieInteractor
-import com.example.learningblibli.domain.usecase.MovieUseCase
+import com.example.learningblibli.domain.usecase.*
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,15 +18,38 @@ import java.util.concurrent.TimeUnit
 
 object Injection {
 
-    fun provideMovieUseCase():MovieUseCase{
-        return MovieInteractor(provideMovieRepository())
+    private fun provideLocalDataSource(context: Context):LocalDataSource{
+        return LocalDataSource()
     }
+
+//    private fun provideMealDao(context: Context): MealDao {
+//        return provideMealDatabase(context).mealDao()
+//    }
+//    private fun provideMealDatabase(context: Context):MealDatabase{
+//        return MealDatabase.getDatabase(context)
+//    }
+    fun provideGetFavoriteMealUseCase(context: Context):GetFavoriteMealUsecase{
+        return GetFavoriteMealUsecase(provideMealRepository(context))
+    }
+
+    fun provideGetMealDetail(context: Context):GetMealDetailUseCase{
+        return GetMealDetailUseCase(provideMealRepository(context))
+    }
+    fun provideGetMealsByFirstNameUseCase(context: Context):GetMealsByFirstNameUseCase{
+        return GetMealsByFirstNameUseCase(provideMealRepository(context))
+    }
+    fun provideSetFavoriteMealUseCase(context: Context):SetFavoriteMealUseCase{
+        return SetFavoriteMealUseCase(provideMealRepository(context))
+    }
+    private fun provideMealRepository(context: Context): MealRepository {
+        return MealRepository(provideRemoteDataSource(), provideLocalDataSource(context))
+    }
+
+
     private fun provideRemoteDataSource():RemoteDataSource{
         return RemoteDataSource(provideApiService())
     }
-    private fun provideMovieRepository():MovieRepository{
-        return MovieRepository(provideRemoteDataSource())
-    }
+
     private fun provideOkHttpClient():OkHttpClient{
 
 
@@ -64,5 +88,9 @@ object Injection {
             .client(client)
             .build()
         return retrofit.create(ApiService::class.java)
+    }
+
+    fun provideSearchMealUseCase(context: Context): SearchMealUseCase {
+        return SearchMealUseCase(provideMealRepository(context))
     }
 }

@@ -4,20 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.learningblibli.R
+import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.remote.network.ApiConfig
 import com.example.learningblibli.databinding.FragmentDetailBinding
-import com.example.learningblibli.domain.model.Movie
+import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.ui.ViewModelFactory
 
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment() {
     private var _binding : FragmentDetailBinding? = null
-
     private val binding get() = _binding!!
+    private lateinit var detailViewModel:DetailViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,37 +32,57 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val idMovie = arguments?.getInt(ID_MOVIE)
+        setupToolBar()
+        setupDetailViewModel()
+        getArgumentMeal()
+        getObserveDetailMeal()
+    }
 
-        val detailViewModel =
-            ViewModelProvider(this, ViewModelFactory())[DetailViewModel::class.java]
-
-        idMovie?.let {
-            detailViewModel.setIdMovie(it)
+    private fun setupToolBar() {
+        with(binding.toolbarDetail){
+            setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            setNavigationOnClickListener { view ->
+                findNavController().popBackStack()
+            }
         }
+    }
+
+    private fun getObserveDetailMeal() {
         detailViewModel.detailMovie.observe(viewLifecycleOwner){
             when(it){
-                is Resource.Error->{
-                    Toast.makeText(context,it.message?:"ERROR",Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading->{
-                }
+
                 is Resource.Success->{
-                    showDetailMovie(it.data)
+                    it.data?.let {meal->
+                        showDetailMeal(meal)
+                    }
                 }
             }
         }
 
     }
 
-    private fun showDetailMovie(data: Movie?) {
-        data?.let {
-            Glide.with(this)
-                .load(ApiConfig.BASE_IMAGE_URL + it.posterPath)
-                .into(binding.ivPoster)
-            binding.tvDescription.text =it.overview
-            binding.toolbarDetail.title =it.title
+    private fun getArgumentMeal() {
+        val meal:Meal? = arguments?.getParcelable(MEAL)
+        meal?.let {
+            detailViewModel.setMeal(it)
+            showDetailMeal(it)
+        }
+    }
 
+    private fun setupDetailViewModel() {
+        detailViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(requireContext()))[DetailViewModel::class.java]
+    }
+
+    private fun showDetailMeal(data: Meal) {
+        data.let {
+            Glide.with(this)
+                .load(it.strMealThumb)
+                .into(binding.ivPoster)
+            binding.tvDescription.text =it.strInstructions
+            binding.toolbarDetail.title =it.strMeal
+            binding.btnFavorite.setOnClickListener {
+                detailViewModel.setFavoriteMovie(!data.isFavorite)
+            }
         }
     }
 
@@ -72,6 +93,6 @@ class DetailFragment : Fragment() {
     }
 
     companion object{
-        const val ID_MOVIE = "ID_MOVIE"
+        const val MEAL = "MEAL"
     }
 }

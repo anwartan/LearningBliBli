@@ -1,21 +1,17 @@
 package com.example.learningblibli.data.source.remote.network
 
-import com.example.learningblibli.data.source.remote.response.ListMovieResponse
-import com.example.learningblibli.data.source.remote.response.MovieResponse
+import com.example.learningblibli.data.source.remote.response.ListMealResponse
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(): ListMovieResponse
+    @GET("search.php")
+    suspend fun getAllMealsByFirstLetter(@Query("f")search:String):ListMealResponse
 
-    @GET("movie/popular")
-    suspend fun getPopularMovies(): ListMovieResponse
+    @GET("lookup.php")
+    suspend fun getMealDetail(@Query("i")id:Int):ListMealResponse
 
-    @GET("movie/top_rated")
-    suspend  fun getTopRatedMovies(): ListMovieResponse
-
-    @GET("movie/{id}")
-    suspend fun getMovieDetail(@Path("id") id: Int): MovieResponse
+    @GET("search.php")
+    suspend fun searchMeal(@Query("s")search: String):ListMealResponse
 }

@@ -7,18 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.learningblibli.R
-import com.example.learningblibli.data.source.remote.network.ApiConfig
-import com.example.learningblibli.databinding.ItemListMovieBinding
-import com.example.learningblibli.domain.model.Movie
+import com.example.learningblibli.databinding.ItemListMealVerticalBinding
+import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.utils.CustomDiffUtilCallback
 
-class MovieAdapter:RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
-
-    var onItemClick: ((Movie) -> Unit)? = null
-    private val listData = ArrayList<Movie>()
-
-    fun setData(newListData: List<Movie>?) {
+class MealVerticalAdapter: RecyclerView.Adapter<MealVerticalAdapter.ViewHolder>() {
+    private val listData = ArrayList<Meal>()
+    fun setData(newListData: List<Meal>?) {
         if (newListData == null) return
         val customDiffUtilCallback = CustomDiffUtilCallback(this.listData,newListData)
         val diffResult = DiffUtil.calculateDiff(customDiffUtilCallback)
@@ -28,13 +23,17 @@ class MovieAdapter:RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListMovieBinding.bind(itemView)
-        fun bind(data: Movie) {
-            with(binding) {
+    var onItemClick: ((Meal) -> Unit)? = null
+    inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemListMealVerticalBinding.bind(itemView)
+
+        fun bind(data:Meal){
+            data.let {
                 Glide.with(itemView.context)
-                    .load(ApiConfig.BASE_IMAGE_URL+data.posterPath)
-                    .into(ivPoster)
+                    .load(data.strMealThumb)
+                    .into(binding.ivPoster)
+                binding.tvTitle.text = data.strMeal
+                binding.tvDescription.text=data.strCategory
             }
         }
 
@@ -43,15 +42,15 @@ class MovieAdapter:RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
                 onItemClick?.invoke(listData[adapterPosition])
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_movie,parent,false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_meal_vertical,parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = listData[position]
-        holder.bind(data)
+        holder.bind(listData[position])
     }
 
     override fun getItemCount(): Int {

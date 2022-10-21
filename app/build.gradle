@@ -16,11 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
-        buildConfigField "String", "BASE_IMAGE_URL", "\"https://image.tmdb.org/t/p/w500\""
-        buildConfigField "String", "API_KEY", "\"2174d146bb9c0eab47529b2e77d6b526\""
-        buildConfigField "String", "SSL_PINNING_ONE", "\"sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk=\""
-        buildConfigField "String", "SSL_PINNING_TWO", "\"sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=\""
+        buildConfigField "String", "API_URL", "\"https://www.themealdb.com/api/json/v1/1/\""
     }
 
     buildTypes {
@@ -71,6 +67,6 @@ dependencies {
 
     // room - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.3"
-
-
+    // paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 }

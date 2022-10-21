@@ -2,18 +2,25 @@ package com.example.learningblibli.ui.detail
 
 import androidx.lifecycle.*
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.domain.model.Movie
-import com.example.learningblibli.domain.usecase.MovieUseCase
+import com.example.learningblibli.domain.model.Meal
+import com.example.learningblibli.domain.usecase.GetMealDetailUseCase
+import com.example.learningblibli.domain.usecase.SetFavoriteMealUseCase
 
-class DetailViewModel(movieUseCase: MovieUseCase) : ViewModel() {
+class DetailViewModel(getMealDetailUseCase: GetMealDetailUseCase,private val setFavoriteMealUseCase: SetFavoriteMealUseCase) : ViewModel() {
 
-    private val idMovie = MutableLiveData<Int>()
+    private val meal = MutableLiveData<Meal>()
 
-    val detailMovie: LiveData<Resource<Movie>> = Transformations.switchMap(idMovie) {
-        movieUseCase.getMovieDetail(it).asLiveData()
+    val detailMovie: LiveData<Resource<Meal>> = Transformations.switchMap(meal) {
+        getMealDetailUseCase(it.idMeal).asLiveData()
     }
 
-    fun setIdMovie(id:Int){
-        idMovie.postValue(id)
+    fun setFavoriteMovie(newStatus:Boolean){
+        meal.value?.let {
+            setFavoriteMealUseCase(it,newStatus)
+        }
+    }
+
+    fun setMeal(newMeal:Meal){
+        meal.postValue(newMeal)
     }
 }
