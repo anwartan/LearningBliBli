@@ -3,16 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/drawable/background_gradient.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/drawable/ic_baseline_home.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/drawable/ic_favorite.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/drawable/ic_favorite_white.xml" value="0.127" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/activity_main.xml" value="0.1566265060240964" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/content_main.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/dialog_loading.xml" value="0.264" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_gallery.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_register.xml" value="0.24374420759962928" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_slideshow.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_meal.xml" value="0.22466960352422907" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_movie.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_movie_vertical.xml" value="0.24126984126984127" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/menu/main.xml" value="0.1" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/menu/search_menu.xml" value="0.2854122621564482" />
       </map>
     </option>
   </component>

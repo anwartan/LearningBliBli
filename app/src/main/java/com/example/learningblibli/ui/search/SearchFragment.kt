@@ -7,13 +7,14 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentSearchBinding
-import com.example.learningblibli.ui.ViewModelFactory
 import com.example.learningblibli.ui.adapter.MealVerticalAdapter
 import com.example.learningblibli.ui.detail.DetailFragment
+import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {
 
@@ -22,6 +23,8 @@ class SearchFragment : BaseFragment() {
     private var _binding:FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private var mealVerticalAdapter:MealVerticalAdapter? = null
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,7 +34,8 @@ class SearchFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        (requireActivity().application as MyApplication).appComponent.inject(this)
+
         setupSearchViewModel()
         setupMealVerticalAdapter()
         setupMealVerticalRecyclerView()
@@ -39,27 +43,33 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setupSearchViewModel() {
-        searchViewModel = ViewModelProvider(this,ViewModelFactory.getInstance(requireContext()))[SearchViewModel::class.java]
+        searchViewModel = ViewModelProvider(this,factory)[SearchViewModel::class.java]
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-        (menu.findItem(R.id.search).actionView as SearchView).apply {
-            setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    query?.let {
-                        searchViewModel.setSearch(query)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        super.onCreateMenu(menu, menuInflater)
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if(menuItem.itemId==R.id.search){
+            (menuItem.actionView as SearchView).apply {
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let {
+                            searchViewModel.setSearch(query)
+                        }
+                        return true
                     }
-                    return true
-                }
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return true
-                }
-            })
-
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        return true
+                    }
+                })
+            }
         }
+        return super.onMenuItemSelected(menuItem)
     }
-
 
     private fun getObserverSearchMeal() {
         searchViewModel.meals.observe(viewLifecycleOwner){

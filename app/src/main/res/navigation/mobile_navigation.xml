@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/homeFragment">
+    app:startDestination="@+id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -30,4 +30,20 @@
         android:name="com.example.learningblibli.ui.search.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.learningblibli.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.learningblibli.ui.register.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

@@ -7,18 +7,22 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.data.source.remote.Resource
+import com.example.learningblibli.data.source.sharedpreferences.AppSharedPreferences
 import com.example.learningblibli.databinding.FragmentDetailBinding
 import com.example.learningblibli.domain.model.Meal
-import com.example.learningblibli.ui.ViewModelFactory
+import com.example.learningblibli.utils.Constants
+import javax.inject.Inject
 
 class DetailFragment : BaseFragment() {
     private var _binding : FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var detailViewModel:DetailViewModel
-
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +35,14 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (requireActivity().application as MyApplication).appComponent.inject(this)
         setupToolBar()
         setupDetailViewModel()
         getArgumentMeal()
         getObserveDetailMeal()
     }
+
+
 
     private fun setupToolBar() {
         with(binding.toolbarDetail){
@@ -70,7 +76,7 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun setupDetailViewModel() {
-        detailViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(requireContext()))[DetailViewModel::class.java]
+        detailViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
     }
 
     private fun showDetailMeal(data: Meal) {
@@ -81,7 +87,7 @@ class DetailFragment : BaseFragment() {
             binding.tvDescription.text =it.strInstructions
             binding.toolbarDetail.title =it.strMeal
             binding.btnFavorite.setOnClickListener {
-                detailViewModel.setFavoriteMovie(!data.isFavorite)
+                detailViewModel.setFavoriteMovie()
             }
         }
     }

@@ -5,9 +5,10 @@ import com.example.learningblibli.data.source.remote.network.ApiService
 import com.example.learningblibli.data.source.remote.response.ListMealResponse
 import com.example.learningblibli.utils.MapperSource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 
-class RemoteDataSource (private val apiService: ApiService){
+class RemoteDataSource @Inject constructor (private val apiService: ApiService){
 
     suspend fun getAllMealsByFirstLetter(firstLetter:String):Flow<ApiResponse<ListMealResponse>>{
         return MapperSource.map {
@@ -25,4 +26,6 @@ class RemoteDataSource (private val apiService: ApiService){
             apiService.searchMeal(name)
         }
     }
+
+
 }

@@ -8,12 +8,14 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.databinding.FragmentFavoriteBinding
 import com.example.learningblibli.ui.ViewModelFactory
 import com.example.learningblibli.ui.adapter.MealVerticalAdapter
 import com.example.learningblibli.ui.detail.DetailFragment
+import javax.inject.Inject
 
 class FavoriteFragment :BaseFragment() {
 
@@ -22,6 +24,9 @@ class FavoriteFragment :BaseFragment() {
     private val binding get() = _binding!!
     private lateinit var favoriteViewModel: FavoriteViewModel
     private var mealVerticalAdapter:MealVerticalAdapter? = null
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +38,7 @@ class FavoriteFragment :BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity().application as MyApplication).appComponent.inject(this)
         setupFavoriteViewModel()
         setupMealVerticalAdapter()
         setupMealVerticalRecyclerView()
@@ -41,7 +47,7 @@ class FavoriteFragment :BaseFragment() {
 
     private fun setupFavoriteViewModel() {
         favoriteViewModel = ViewModelProvider(this,
-            ViewModelFactory.getInstance(requireContext())
+           factory
         )[FavoriteViewModel::class.java]
     }
     private fun setupMealVerticalAdapter() {

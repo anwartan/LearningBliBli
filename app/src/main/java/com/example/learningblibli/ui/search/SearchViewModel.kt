@@ -4,8 +4,9 @@ import androidx.lifecycle.*
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.domain.usecase.SearchMealUseCase
+import javax.inject.Inject
 
-class SearchViewModel(searchMealUseCase: SearchMealUseCase) : ViewModel() {
+class SearchViewModel @Inject constructor (searchMealUseCase: SearchMealUseCase) : ViewModel() {
     private val search = MutableLiveData<String>()
 
     val meals: LiveData<Resource<List<Meal>>> = Transformations.switchMap(search) {
