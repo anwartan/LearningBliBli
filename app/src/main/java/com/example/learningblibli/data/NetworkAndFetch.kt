@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 abstract class NetworkAndFetch<ResultType,RequestType> {
     private var result : Flow<Resource<ResultType>> = flow {
 
-        emit(Resource.Loading<ResultType>())
+        emit(Resource.Loading())
         when (val apiResponse = createCall().first()) {
             is ApiResponse.Success ->{
                 onFetchSuccess(apiResponse.data)
@@ -17,10 +17,10 @@ abstract class NetworkAndFetch<ResultType,RequestType> {
             }
             is ApiResponse.Error -> {
                 onFetchFailed()
-                emit(Resource.Error<ResultType>(apiResponse.errorMessage))
+                emit(Resource.Error(apiResponse.errorMessage))
             }
             is ApiResponse.Empty -> {
-                emit(Resource.Error<ResultType>("EMPTY"))
+                emit(Resource.Error("EMPTY"))
             }
         }
     }

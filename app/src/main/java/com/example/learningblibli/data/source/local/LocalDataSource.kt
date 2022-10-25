@@ -3,7 +3,6 @@ package com.example.learningblibli.data.source.local
 import androidx.lifecycle.LiveData
 import com.example.learningblibli.data.source.local.entity.MealEntity
 import com.example.learningblibli.data.source.local.room.MealDao
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor (private val mealDao: MealDao){

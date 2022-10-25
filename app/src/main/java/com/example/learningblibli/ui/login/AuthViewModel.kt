@@ -7,35 +7,58 @@ import com.example.learningblibli.base.BaseViewModel
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.domain.usecase.GetCurrentUserUseCase
 import com.example.learningblibli.domain.usecase.LoginByFirebaseUseCase
+import com.example.learningblibli.domain.usecase.LogoutByFirebaseUseCase
 import com.example.learningblibli.domain.usecase.RegisterByFirebaseUseCase
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(
     private val loginByFirebaseUseCase: LoginByFirebaseUseCase,
     private val registerByFirebaseUseCase: RegisterByFirebaseUseCase,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val logoutByFirebaseUseCase: LogoutByFirebaseUseCase
     ) : BaseViewModel() {
+    private var _currentUser = MutableLiveData<FirebaseUser?>(null)
+    val currentUser:LiveData<FirebaseUser?> get() = _currentUser
 
 
+    init {
+        getCurrentUser()
+    }
+    private fun getCurrentUser()  = viewModelScope.launch {
+        _currentUser.postValue(getCurrentUserUseCase())
+    }
 
     private val _loginFlow = MutableLiveData<Resource<FirebaseUser?>>()
     val loginFlow: LiveData<Resource<FirebaseUser?>> = _loginFlow
 
+    fun loginUser(email: String, password: String) = viewModelScope.launch {
+
+        setLoading(true)
+        val result = loginByFirebaseUseCase(email, password)
+        _loginFlow.value = result
+        getCurrentUser()
+        setLoading(false)
+    }
+
+
     private val _signupFlow = MutableLiveData<Resource<FirebaseUser?>>()
     val signupFlow: LiveData<Resource<FirebaseUser?>> = _signupFlow
 
-    val currentUser:LiveData<FirebaseUser?> get() = getCurrentUserUseCase()
-
-    fun loginUser(email: String, password: String) = viewModelScope.launch {
-        _loginFlow.value=Resource.Loading()
-        val result = loginByFirebaseUseCase(email, password)
-        _loginFlow.value = result
-    }
     fun register(email: String, password: String) = viewModelScope.launch {
-        _signupFlow.value=Resource.Loading()
+        setLoading(true)
         val result = registerByFirebaseUseCase(email, password)
         _signupFlow.value = result
+        setLoading(false)
+    }
+
+    fun logout() = viewModelScope.launch{
+        setLoading(true)
+        delay(1000)
+        logoutByFirebaseUseCase()
+        getCurrentUser()
+        setLoading(false)
     }
 }

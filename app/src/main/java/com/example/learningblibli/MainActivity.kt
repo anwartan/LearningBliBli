@@ -46,6 +46,7 @@ class MainActivity : BaseActivity() {
         getCurrentUser()
         setupActionBarWithNavController(navController, appBarConfiguration)
         getStateDarkMode()
+        getStateResource()
     }
     private fun getStateDarkMode() {
         sharedPreferences.getBooleanAsLiveData(Constants.DARK_MODE).observe(this){
@@ -53,9 +54,20 @@ class MainActivity : BaseActivity() {
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
+    private fun getStateResource(){
+        authViewModel.loading.observe(this){
+            if(it) showLoadingDialog()
+            else hideLoadingDialog()
+        }
+    }
     private fun getCurrentUser() {
         authViewModel.currentUser.observe(this){
-            let {
+            if(it==null){
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(navController.graph.id,true)
+                    .build()
+                navController.navigate(R.id.loginFragment,null,navOptions)
+            }else{
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(navController.graph.id,true)
                     .build()

@@ -1,35 +1,27 @@
 package com.example.learningblibli.data.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.asLiveData
 import com.example.learningblibli.data.source.local.LocalDataSource
 import com.example.learningblibli.data.source.remote.RemoteDataSource
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.data.source.remote.network.ApiResponse
 import com.example.learningblibli.data.source.remote.response.ListMealResponse
 import com.example.learningblibli.utils.DataDummy
-import com.example.learningblibli.utils.getOrAwaitValue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.*
+import io.reactivex.Observable
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
-@OptIn(ExperimentalCoroutinesApi::class)
+
 @RunWith(MockitoJUnitRunner::class)
 class MealRepositoryTest{
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-    private val dispatcher = UnconfinedTestDispatcher()
-
     @Mock
     private lateinit var remoteDataSource: RemoteDataSource
     @Mock
@@ -37,26 +29,25 @@ class MealRepositoryTest{
     private lateinit var mealRepository:MealRepository
     @Before
     fun setUp(){
-        Dispatchers.setMain(dispatcher)
+
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         mealRepository = MealRepository(remoteDataSource,localDataSource)
     }
     @After
     fun tearDown(){
-        Dispatchers.resetMain()
-//        Mockito.verifyNoMoreInteractions(remoteDataSource)
-//        Mockito.verifyNoMoreInteractions(localDataSource)
+        RxAndroidPlugins.reset()
+        RxJavaPlugins.reset()
     }
 
     @Test
-    fun getAllMealsByFirstLetter() = runBlocking{
-        val expectedData = DataDummy.generateDummyListMealResponse()
-        val data = flowOf<ApiResponse<ListMealResponse>>(ApiResponse.Success(expectedData))
+    fun getAllMealsByFirstLetter(){
+        val dataDummy = DataDummy.generateDummyListMealResponse()
+        val expectedData = ApiResponse.Success(dataDummy)
+        val data = Observable.just(expectedData as ApiResponse<ListMealResponse>)
         Mockito.`when`(remoteDataSource.getAllMealsByFirstLetter("a")).thenReturn(data)
-        val actual = mealRepository.getAllMealsByFirstLetter("a").asLiveData()
-        Assert.assertTrue(actual.getOrAwaitValue() is Resource.Loading)
-        Assert.assertEquals(expectedData.meals?.size,(actual.getOrAwaitValue() as Resource.Success).data?.size)
-        Mockito.verify(remoteDataSource).getAllMealsByFirstLetter("a")
-
+        val observer = mealRepository.getAllMealsByFirstLetter("a").subscribe {
+            Assert.assertTrue(it is Resource.Success)
+        }
     }
-
 }

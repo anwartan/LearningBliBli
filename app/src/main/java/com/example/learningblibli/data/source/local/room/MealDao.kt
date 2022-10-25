@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.learningblibli.data.source.local.entity.MealEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealDao {

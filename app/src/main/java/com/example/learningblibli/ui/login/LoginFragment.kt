@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
-import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentLoginBinding
 import javax.inject.Inject
 
@@ -18,7 +18,9 @@ class LoginFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    private lateinit var viewModel: AuthViewModel
+    private val viewModel: AuthViewModel by activityViewModels {
+        factory
+    }
     private var _binding: FragmentLoginBinding? = null
     private val binding get()=_binding!!
 
@@ -36,31 +38,8 @@ class LoginFragment : BaseFragment() {
         binding.etEmail.setText("anwartan55@gmail.com")
         binding.etPassword.setText("123456")
 
-        setupLoginViewModel()
         setupRegisterButton()
         setupLoginButton()
-        getFirebaseLoginUseCase()
-    }
-
-    private fun getFirebaseLoginUseCase() {
-        viewModel.loginFlow.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.Success ->{
-
-                    it.data?.let {
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                    }
-                    hideLoadingDialog()
-                }
-                is Resource.Error->{
-                    hideLoadingDialog()
-                    Toast.makeText(context,it.message?:"ERROR",Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading->{
-                   showLoadingDialog()
-                }
-            }
-        }
     }
 
     private fun setupLoginButton() {
@@ -100,8 +79,6 @@ class LoginFragment : BaseFragment() {
         }
     }
 
-    private fun setupLoginViewModel() {
-        viewModel = ViewModelProvider(this,factory)[AuthViewModel::class.java]
-    }
+
 
 }

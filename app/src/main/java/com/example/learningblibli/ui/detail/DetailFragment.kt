@@ -11,10 +11,8 @@ import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.sharedpreferences.AppSharedPreferences
 import com.example.learningblibli.databinding.FragmentDetailBinding
 import com.example.learningblibli.domain.model.Meal
-import com.example.learningblibli.utils.Constants
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment() {

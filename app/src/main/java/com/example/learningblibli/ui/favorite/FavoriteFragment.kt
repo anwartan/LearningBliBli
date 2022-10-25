@@ -12,7 +12,6 @@ import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.databinding.FragmentFavoriteBinding
-import com.example.learningblibli.ui.ViewModelFactory
 import com.example.learningblibli.ui.adapter.MealVerticalAdapter
 import com.example.learningblibli.ui.detail.DetailFragment
 import javax.inject.Inject

@@ -36,4 +36,5 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AuthViewModel::class)
     abstract fun provideLoginViewModel(loginViewModel: AuthViewModel):ViewModel
+
 }

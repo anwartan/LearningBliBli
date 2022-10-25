@@ -11,6 +11,10 @@ import com.example.learningblibli.data.source.remote.response.ListMealResponse
 import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.domain.repository.IMealRepository
 import com.example.learningblibli.utils.mapper.MealMapper
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -18,17 +22,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MealRepository @Inject constructor(private val remoteDataSource: RemoteDataSource,private val localDataSource: LocalDataSource):IMealRepository {
-    override fun getAllMealsByFirstLetter(firstLetter: String): Flow<Resource<List<Meal>>> {
-        return object : NetworkAndFetch<List<Meal>,ListMealResponse>(){
-            override suspend fun createCall(): Flow<ApiResponse<ListMealResponse>> {
-                return remoteDataSource.getAllMealsByFirstLetter(firstLetter)
-            }
 
-            override fun mapResponse(data: ListMealResponse): List<Meal> {
-                return MealMapper.mapListMealResponseToListMeal(data)
+    override fun getAllMealsByFirstLetter(firstLetter: String): Observable<Resource<List<Meal>>> {
+        val result = PublishSubject.create<Resource<List<Meal>>>()
+        val apiResponse = remoteDataSource.getAllMealsByFirstLetter(firstLetter)
+        apiResponse
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { response ->
+                when(response){
+                    is ApiResponse.Success->{
+                        result.onNext(Resource.Success(MealMapper.mapListMealResponseToListMeal(response.data)))
+                    }
+                    is ApiResponse.Error ->{
+                        result.onNext(Resource.Error(response.errorMessage))
+                    }
+                    is ApiResponse.Empty->{
+                        result.onNext(Resource.Error("EMPTY"))
+                    }
+                }
             }
+        return result
 
-        }.asFlow()
+
     }
 
     override fun getMealDetail(id: Int): Flow<Resource<Meal>> {

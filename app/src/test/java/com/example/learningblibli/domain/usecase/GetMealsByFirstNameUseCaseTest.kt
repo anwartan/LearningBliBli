@@ -40,19 +40,19 @@ class GetMealsByFirstNameUseCaseTest{
         verifyNoMoreInteractions(mealRepository)
     }
 
-    @Test
-    fun getAllMealsByFirstLetter(){
-        val dataDummy = DataDummy.generateDummyMeals()
-        val expectedMeals = flowOf( Resource.Success(dataDummy))
-
-        `when`(mealRepository.getAllMealsByFirstLetter("a")).thenReturn(expectedMeals)
-        val actualMeals = getMealsByFirstNameUseCase.invoke("a").asLiveData().getOrAwaitValue()
-        verify(mealRepository).getAllMealsByFirstLetter("a")
-        Assert.assertNotNull(actualMeals)
-        Assert.assertTrue(actualMeals is Resource.Success)
-        Assert.assertNotNull((actualMeals as Resource.Success).data)
-        Assert.assertEquals(dataDummy.size, actualMeals.data?.size)
-        Assert.assertEquals(dataDummy[0], actualMeals.data?.get(0))
-
-    }
+//    @Test
+//    fun getAllMealsByFirstLetter(){
+//        val dataDummy = DataDummy.generateDummyMeals()
+//        val expectedMeals = flowOf( Resource.Success(dataDummy))
+//
+//        `when`(mealRepository.getAllMealsByFirstLetter("a")).thenReturn(expectedMeals)
+//        val actualMeals = getMealsByFirstNameUseCase.invoke("a").asLiveData().getOrAwaitValue()
+//        verify(mealRepository).getAllMealsByFirstLetter("a")
+//        Assert.assertNotNull(actualMeals)
+//        Assert.assertTrue(actualMeals is Resource.Success)
+//        Assert.assertNotNull((actualMeals as Resource.Success).data)
+//        Assert.assertEquals(dataDummy.size, actualMeals.data?.size)
+//        Assert.assertEquals(dataDummy[0], actualMeals.data?.get(0))
+//
+//    }
 }

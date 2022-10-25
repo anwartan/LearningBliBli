@@ -19,7 +19,7 @@ object DataDummy {
         }
         return newsList
     }
-    fun generateDummyMealResponses(): List<MealResponse> {
+    private fun generateDummyMealResponses(): List<MealResponse> {
         val newsList = ArrayList<MealResponse>()
         for (i in 0..10) {
             val news = MealResponse(

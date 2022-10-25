@@ -1,7 +1,5 @@
 package com.example.learningblibli.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.domain.repository.IUserRepository
 import com.google.firebase.auth.AuthResult
@@ -50,12 +48,11 @@ class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth
         }
     }
 
-    override fun logout() {
+    override fun logout(){
         firebaseAuth.signOut()
     }
 
-    override fun getCurrentUser():LiveData<FirebaseUser?> = liveData {
-        emit(firebaseAuth.currentUser)
-    }
+    override fun getCurrentUser():FirebaseUser? = firebaseAuth.currentUser
+
 
 }

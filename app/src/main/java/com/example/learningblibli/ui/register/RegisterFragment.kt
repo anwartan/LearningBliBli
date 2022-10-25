@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.learningblibli.MyApplication
@@ -16,11 +17,14 @@ import javax.inject.Inject
 
 class RegisterFragment : BaseFragment() {
 
-    private lateinit var viewModel: AuthViewModel
+
     private var _binding:FragmentRegisterBinding?=null
     private val binding get() = _binding!!
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+    private val viewModel: AuthViewModel by activityViewModels {
+        factory
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +36,7 @@ class RegisterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
-        setupRegisterViewModel()
+
         setupLoginButtonViewModel()
         setupRegisterButtonViewModel()
         getSignUpFlow()
@@ -42,19 +46,12 @@ class RegisterFragment : BaseFragment() {
         viewModel.signupFlow.observe(viewLifecycleOwner){
             when(it){
                 is Resource.Success ->{
-                    hideLoadingDialog()
                     it.data?.let {
                         Toast.makeText(context,"User created",Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
                 }
-                is Resource.Error->{
-                    hideLoadingDialog()
-                    Toast.makeText(context,it.message?:"ERROR", Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading->{
-                    showLoadingDialog()
-                }
+
             }
         }
 
@@ -78,9 +75,5 @@ class RegisterFragment : BaseFragment() {
         }
     }
 
-    private fun setupRegisterViewModel() {
-        viewModel = ViewModelProvider(this,factory)[AuthViewModel::class.java]
-
-    }
 
 }

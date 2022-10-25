@@ -8,7 +8,10 @@ abstract class BaseViewModel:ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    private val _loading = MutableLiveData<Boolean?>()
-    val loading: LiveData<Boolean?> = _loading
+    private val _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading
 
+    fun setLoading(boolean: Boolean){
+        _loading.postValue(boolean)
+    }
 }
