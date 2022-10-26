@@ -1,7 +1,6 @@
 package com.example.learningblibli.di
 
 import com.example.learningblibli.BuildConfig
-import com.example.learningblibli.data.source.remote.RemoteDataSource
 import com.example.learningblibli.data.source.remote.network.ApiConfig
 import com.example.learningblibli.data.source.remote.network.ApiService
 import com.google.firebase.auth.FirebaseAuth
@@ -56,10 +55,6 @@ class NetworkModule {
             .client(client)
             .build()
         return retrofit.create(ApiService::class.java)
-    }
-    @Provides
-    fun provideRemoteDataSource(apiService: ApiService): RemoteDataSource {
-        return RemoteDataSource(apiService)
     }
 
     @Provides

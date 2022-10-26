@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMealRepository {
     fun getAllMealsByFirstLetter(firstLetter:String): Observable<Resource<List<Meal>>>
-    fun getMealDetail(id:Int):Flow<Resource<Meal>>
-    fun searchMeal(name:String): Flow<Resource<List<Meal>>>
+    fun getMealDetail(id:Int):Observable<Resource<Meal>>
+    fun searchMeal(name:String): Observable<Resource<List<Meal>>>
     suspend fun setFavoriteMeal(meal: Meal,status:Boolean)
     suspend fun insertFavoriteMeal(meal:Meal)
     suspend fun getFavoriteMealById(id: Int):Meal?

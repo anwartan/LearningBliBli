@@ -22,6 +22,7 @@ class DetailFragment : BaseFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
+    private lateinit var meal: Meal
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,16 +46,15 @@ class DetailFragment : BaseFragment() {
     private fun setupToolBar() {
         with(binding.toolbarDetail){
             setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
-            setNavigationOnClickListener { view ->
+            setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
         }
     }
 
     private fun getObserveDetailMeal() {
-        detailViewModel.detailMovie.observe(viewLifecycleOwner){
+        detailViewModel.detailMeal.observe(viewLifecycleOwner){
             when(it){
-
                 is Resource.Success->{
                     it.data?.let {meal->
                         showDetailMeal(meal)
@@ -66,9 +66,10 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun getArgumentMeal() {
-        val meal:Meal? = arguments?.getParcelable(MEAL)
-        meal?.let {
-            detailViewModel.setMeal(it)
+        val mealArg:Meal? = arguments?.getParcelable(MEAL)
+        mealArg?.let {
+            meal = it
+            detailViewModel.getDetailMeal(it)
             showDetailMeal(it)
         }
     }
@@ -85,7 +86,7 @@ class DetailFragment : BaseFragment() {
             binding.tvDescription.text =it.strInstructions
             binding.toolbarDetail.title =it.strMeal
             binding.btnFavorite.setOnClickListener {
-                detailViewModel.setFavoriteMovie()
+                detailViewModel.setFavoriteMovie(meal)
             }
         }
     }

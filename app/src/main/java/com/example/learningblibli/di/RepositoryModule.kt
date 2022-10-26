@@ -1,9 +1,9 @@
 package com.example.learningblibli.di
 
-import com.example.learningblibli.data.repository.MealRepository
 import com.example.learningblibli.data.repository.AuthRepository
-import com.example.learningblibli.data.source.local.LocalDataSource
-import com.example.learningblibli.data.source.remote.RemoteDataSource
+import com.example.learningblibli.data.repository.MealRepository
+import com.example.learningblibli.data.source.local.room.MealDao
+import com.example.learningblibli.data.source.remote.network.ApiService
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -14,8 +14,8 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMealRepository(remoteDataSource: RemoteDataSource,localDataSource: LocalDataSource): MealRepository {
-        return MealRepository(remoteDataSource, localDataSource)
+    fun provideMealRepository(apiService: ApiService,mealDao: MealDao): MealRepository {
+        return MealRepository(apiService, mealDao)
     }
     @Singleton
     @Provides

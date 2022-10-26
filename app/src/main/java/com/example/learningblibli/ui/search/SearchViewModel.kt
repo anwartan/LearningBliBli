@@ -1,18 +1,26 @@
 package com.example.learningblibli.ui.search
 
 import androidx.lifecycle.*
+import com.example.learningblibli.base.BaseViewModel
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.domain.usecase.SearchMealUseCase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor (searchMealUseCase: SearchMealUseCase) : ViewModel() {
-    private val search = MutableLiveData<String>()
+class SearchViewModel @Inject constructor (private val searchMealUseCase: SearchMealUseCase) : BaseViewModel() {
 
-    val meals: LiveData<Resource<List<Meal>>> = Transformations.switchMap(search) {
-        searchMealUseCase(it).asLiveData()
-    }
-    fun setSearch(name:String){
-        search.postValue(name)
+    private val _meals = MutableLiveData<Resource<List<Meal>>>()
+    val meals: LiveData<Resource<List<Meal>>> = _meals
+
+    fun searchMeals(name:String){
+        val result = searchMealUseCase(name)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                _meals.postValue(it)
+            }
+        addDisposable(result)
     }
 }

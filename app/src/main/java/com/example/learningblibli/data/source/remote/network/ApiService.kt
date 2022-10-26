@@ -12,8 +12,8 @@ interface ApiService {
     fun getAllMealsByFirstLetter(@Query("f")search:String): Observable<ListMealResponse>
 
     @GET("lookup.php")
-    suspend fun getMealDetail(@Query("i")id:Int):ListMealResponse
+    fun getMealDetail(@Query("i")id:Int):Observable<ListMealResponse>
 
     @GET("search.php")
-    suspend fun searchMeal(@Query("s")search: String):ListMealResponse
+    fun searchMeal(@Query("s")search: String):Observable<ListMealResponse>
 }

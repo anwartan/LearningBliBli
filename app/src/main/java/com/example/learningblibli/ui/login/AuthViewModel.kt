@@ -32,7 +32,7 @@ class AuthViewModel @Inject constructor(
     }
 
     private val _loginFlow = MutableLiveData<Resource<FirebaseUser?>>()
-    val loginFlow: LiveData<Resource<FirebaseUser?>> = _loginFlow
+
 
     fun loginUser(email: String, password: String) = viewModelScope.launch {
 

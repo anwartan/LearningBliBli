@@ -61,6 +61,7 @@ class FavoriteFragment :BaseFragment() {
         mealVerticalAdapter = newMealVerticalAdapter
     }
     private fun getObserverSearchMeal() {
+        favoriteViewModel.getMeals()
         favoriteViewModel.meals.observe(viewLifecycleOwner){
             mealVerticalAdapter?.setData(it)
         }

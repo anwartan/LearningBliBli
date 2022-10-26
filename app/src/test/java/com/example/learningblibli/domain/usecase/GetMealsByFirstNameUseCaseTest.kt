@@ -1,58 +1,48 @@
 package com.example.learningblibli.domain.usecase
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.asLiveData
 import com.example.learningblibli.data.repository.MealRepository
 import com.example.learningblibli.data.source.remote.Resource
+import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.utils.DataDummy
-import com.example.learningblibli.utils.getOrAwaitValue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.*
-import org.junit.runner.RunWith
+import io.reactivex.Observable
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.junit.MockitoJUnitRunner
-@ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
+import org.mockito.MockitoAnnotations
+
 class GetMealsByFirstNameUseCaseTest{
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var mealRepository: MealRepository
+    @InjectMocks
     private lateinit var getMealsByFirstNameUseCase: GetMealsByFirstNameUseCase
-
-    private val dispatcher =  UnconfinedTestDispatcher()
 
     @Before
     fun setUp(){
-        Dispatchers.setMain(dispatcher)
-        getMealsByFirstNameUseCase = GetMealsByFirstNameUseCase(mealRepository)
+        MockitoAnnotations.openMocks(this)
     }
     @After
     fun tearDown(){
-        Dispatchers.resetMain()
         verifyNoMoreInteractions(mealRepository)
     }
 
-//    @Test
-//    fun getAllMealsByFirstLetter(){
-//        val dataDummy = DataDummy.generateDummyMeals()
-//        val expectedMeals = flowOf( Resource.Success(dataDummy))
-//
-//        `when`(mealRepository.getAllMealsByFirstLetter("a")).thenReturn(expectedMeals)
-//        val actualMeals = getMealsByFirstNameUseCase.invoke("a").asLiveData().getOrAwaitValue()
-//        verify(mealRepository).getAllMealsByFirstLetter("a")
-//        Assert.assertNotNull(actualMeals)
-//        Assert.assertTrue(actualMeals is Resource.Success)
-//        Assert.assertNotNull((actualMeals as Resource.Success).data)
-//        Assert.assertEquals(dataDummy.size, actualMeals.data?.size)
-//        Assert.assertEquals(dataDummy[0], actualMeals.data?.get(0))
-//
-//    }
+    @Test
+    fun getAllMealsByFirstLetter(){
+        val dataDummy = DataDummy.generateDummyMeals()
+        val expectedMeals = Observable.just( Resource.Success(dataDummy) as Resource<List<Meal>>)
+
+        `when`(mealRepository.getAllMealsByFirstLetter("a")).thenReturn(expectedMeals)
+        val actualMeals = getMealsByFirstNameUseCase.invoke("a").blockingFirst()
+        verify(mealRepository).getAllMealsByFirstLetter("a")
+        Assert.assertNotNull(actualMeals)
+        Assert.assertTrue(actualMeals is Resource.Success)
+        Assert.assertNotNull((actualMeals as Resource.Success).data)
+        Assert.assertEquals(dataDummy.size, actualMeals.data?.size)
+        Assert.assertEquals(dataDummy[0], actualMeals.data?.get(0))
+
+    }
 }

@@ -58,7 +58,7 @@ class SearchFragment : BaseFragment() {
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         query?.let {
-                            searchViewModel.setSearch(query)
+                            searchViewModel.searchMeals(query)
                         }
                         return true
                     }

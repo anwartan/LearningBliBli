@@ -35,11 +35,8 @@ class MealVerticalAdapter: RecyclerView.Adapter<MealVerticalAdapter.ViewHolder>(
                 binding.tvTitle.text = data.strMeal
                 binding.tvDescription.text=data.strCategory
             }
-        }
-
-        init {
             binding.root.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
+                onItemClick?.invoke(data)
             }
         }
 

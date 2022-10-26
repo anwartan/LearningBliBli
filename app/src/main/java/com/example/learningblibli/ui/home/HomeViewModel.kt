@@ -2,8 +2,8 @@ package com.example.learningblibli.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.learningblibli.base.BaseViewModel
 import com.example.learningblibli.data.source.remote.Resource
 import com.example.learningblibli.data.source.sharedpreferences.AppSharedPreferences
 import com.example.learningblibli.domain.model.Meal
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor (
     private val getMealsByFirstNameUseCase: GetMealsByFirstNameUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     @Inject
     lateinit var appSharedPreferences: AppSharedPreferences
@@ -24,17 +24,16 @@ class HomeViewModel @Inject constructor (
     @Inject
     lateinit var sharedPreferences: AppSharedPreferences
 
-
-
     private val _meals =MutableLiveData<Resource<List<Meal>>>()
     val meals :LiveData<Resource<List<Meal>>> get() = _meals
     fun getMeals(){
-        getMealsByFirstNameUseCase("a")
+        val result = getMealsByFirstNameUseCase("a")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 _meals.postValue(it)
             }
+        addDisposable(result)
     }
 
     fun getThemeSettings(): LiveData<Boolean> {

@@ -39,11 +39,8 @@ class MealAdapter:RecyclerView.Adapter<MealAdapter.ViewHolder>() {
                 }
 
             }
-        }
-
-        init {
             binding.root.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
+                onItemClick?.invoke(data)
             }
         }
     }
@@ -55,6 +52,7 @@ class MealAdapter:RecyclerView.Adapter<MealAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = listData[position]
         holder.bind(data)
+
     }
 
     override fun getItemCount(): Int {

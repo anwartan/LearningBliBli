@@ -16,11 +16,6 @@
         android:label="@string/favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
-        android:id="@+id/watchlistFragment"
-        android:name="com.example.learningblibli.ui.watchlist.WatchlistFragment"
-        android:label="@string/watchlist"
-        tools:layout="@layout/fragment_watchlist" />
-    <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.learningblibli.ui.detail.DetailFragment"
         android:label="@string/detail_movie"
