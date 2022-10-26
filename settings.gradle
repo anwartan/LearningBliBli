@@ -13,4 +13,10 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "LearningBliBli"
+
 include ':app'
+include ':sharedPreferences'
+include ':lib_api'
+project(':lib_api').projectDir = new File("./libs/lib_api")
+include ':lib_model'
+include ':feature_detail'

@@ -23,13 +23,10 @@ class DetailViewModel @Inject constructor(
     private val getFavoriteMealByIdUsecase: GetFavoriteMealByIdUsecase
     ) : BaseViewModel() {
 
-
-
     private val _detailMeal = MutableLiveData<Resource<Meal>>()
     val detailMeal: LiveData<Resource<Meal>> get()=_detailMeal
 
     fun getDetailMeal(meal: Meal){
-
         val result = getMealDetailUseCase(meal.idMeal)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -37,11 +34,9 @@ class DetailViewModel @Inject constructor(
                 _detailMeal.postValue(response)
             }
         addDisposable(result)
-
     }
 
     fun setFavoriteMovie(meal: Meal){
-
         viewModelScope.launch (Dispatchers.IO){
             val mealFavorite = getFavoriteMealByIdUsecase(meal.idMeal)
             if(mealFavorite==null){
@@ -50,7 +45,6 @@ class DetailViewModel @Inject constructor(
                 setFavoriteMealUseCase(meal,!mealFavorite.isFavorite)
             }
         }
-
     }
 
 

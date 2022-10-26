@@ -18,7 +18,7 @@ import javax.inject.Inject
 class DetailFragment : BaseFragment() {
     private var _binding : FragmentDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var detailViewModel:DetailViewModel
+    private lateinit var detailViewModel: DetailViewModel
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/loginFragment">
+    app:startDestination="@+id/blankFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -41,4 +41,8 @@
         android:name="com.example.learningblibli.ui.register.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.example.learningblibli.feature_detail.BlankFragment"
+        android:label="BlankFragment" />
 </navigation>

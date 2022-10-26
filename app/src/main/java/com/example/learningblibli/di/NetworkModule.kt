@@ -2,7 +2,7 @@ package com.example.learningblibli.di
 
 import com.example.learningblibli.BuildConfig
 import com.example.learningblibli.data.source.remote.network.ApiConfig
-import com.example.learningblibli.data.source.remote.network.ApiService
+import com.example.learningblibli.lib_api.service.ApiService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -54,7 +54,7 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()
-        return retrofit.create(ApiService::class.java)
+        return retrofit.create(com.example.learningblibli.lib_api.service.ApiService::class.java)
     }
 
     @Provides

@@ -1,8 +1,8 @@
 package com.example.learningblibli.utils
 
 import com.example.learningblibli.data.source.local.entity.MealEntity
-import com.example.learningblibli.data.source.remote.response.ListMealResponse
-import com.example.learningblibli.data.source.remote.response.MealResponse
+import com.example.learningblibli.lib_model.ListMealResponse
+import com.example.learningblibli.lib_model.MealResponse
 import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.utils.mapper.MealMapper
 
@@ -34,10 +34,10 @@ object DataDummy {
         }
         return newsList
     }
-    private fun generateDummyMealResponses(): List<MealResponse> {
-        val newsList = ArrayList<MealResponse>()
+    private fun generateDummyMealResponses(): List<com.example.learningblibli.lib_model.MealResponse> {
+        val newsList = ArrayList<com.example.learningblibli.lib_model.MealResponse>()
         for (i in 0..10) {
-            val news = MealResponse(
+            val news = com.example.learningblibli.lib_model.MealResponse(
                 i,
                 strImageSource = "https://www.themealdb.com/images/media/meals/wxywrq1468235067.jpg",
                 strMeal = "meal1",
@@ -49,8 +49,8 @@ object DataDummy {
         return newsList
     }
 
-    fun generateDummyListMealResponse(): ListMealResponse {
-        return ListMealResponse(generateDummyMealResponses())
+    fun generateDummyListMealResponse(): com.example.learningblibli.lib_model.ListMealResponse {
+        return com.example.learningblibli.lib_model.ListMealResponse(generateDummyMealResponses())
     }
 
 }

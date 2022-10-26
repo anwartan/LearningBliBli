@@ -1,12 +1,12 @@
 package com.example.learningblibli.utils.mapper
 
 import com.example.learningblibli.data.source.local.entity.MealEntity
-import com.example.learningblibli.data.source.remote.response.ListMealResponse
-import com.example.learningblibli.data.source.remote.response.MealResponse
+import com.example.learningblibli.lib_model.ListMealResponse
+import com.example.learningblibli.lib_model.MealResponse
 import com.example.learningblibli.domain.model.Meal
 
 object MealMapper {
-    private fun mapResponseToModel(it: MealResponse): Meal {
+    private fun mapResponseToModel(it: com.example.learningblibli.lib_model.MealResponse): Meal {
         return Meal(
             idMeal = it.idMeal,
             dateModified = it.dateModified,
@@ -64,7 +64,7 @@ object MealMapper {
             isFavorite = false
             )
     }
-    fun mapListMealResponseToListMeal(listMealResponse: ListMealResponse):List<Meal>{
+    fun mapListMealResponseToListMeal(listMealResponse: com.example.learningblibli.lib_model.ListMealResponse):List<Meal>{
         val meals = arrayListOf<Meal>()
         listMealResponse.meals?.map {
             val meal = mapResponseToModel(it)

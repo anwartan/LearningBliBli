@@ -40,7 +40,11 @@ android {
 }
 
 dependencies {
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(":sharedPreferences")
+    implementation project(":lib_api")
+    implementation project(":lib_model")
+    implementation project(":feature_detail")
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'

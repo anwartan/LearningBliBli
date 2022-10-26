@@ -12,7 +12,6 @@ import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.base.BaseFragment
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.sharedpreferences.AppSharedPreferences
 import com.example.learningblibli.databinding.FragmentHomeBinding
 import com.example.learningblibli.ui.adapter.MealAdapter
 import com.example.learningblibli.ui.detail.DetailFragment
@@ -31,8 +30,7 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var sharedPreferences: AppSharedPreferences
+
     private var isActive = false
 
     override fun onCreateView(
@@ -46,13 +44,11 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity
         (requireActivity().application as MyApplication).appComponent.inject(this)
         setupHomeViewModel()
         setUpMealAdapter()
         setUpMealRecyclerView()
         getObserveMeals()
-        getObserveCurrentUser()
         getObserveTheme()
     }
 
@@ -68,18 +64,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun getObserveCurrentUser() {
-//        authViewModel.currentUser.observe(viewLifecycleOwner){
-//            if(it==null){
-//                val current = findNavController().graph.id
-//                val navOptions = NavOptions.Builder()
-//                    .setPopUpTo(current,true)
-//                    .build()
-//                findNavController().navigate(R.id.loginFragment,null,navOptions)
-//            }
-//        }
-
-    }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         super.onCreateMenu(menu, menuInflater)

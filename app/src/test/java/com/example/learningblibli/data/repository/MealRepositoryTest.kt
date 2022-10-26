@@ -3,7 +3,6 @@ package com.example.learningblibli.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.learningblibli.data.source.local.room.MealDao
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.remote.network.ApiService
 import com.example.learningblibli.utils.DataDummy
 import com.example.learningblibli.utils.mapper.MealMapper
 import io.reactivex.Observable
@@ -31,7 +30,7 @@ class MealRepositoryTest{
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var apiService: ApiService
+    private lateinit var apiService: com.example.learningblibli.lib_api.service.ApiService
     @Mock
     private lateinit var mealDao: MealDao
     @InjectMocks

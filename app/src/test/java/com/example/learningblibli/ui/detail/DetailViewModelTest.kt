@@ -95,28 +95,23 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun setFavoriteMovie() = runTest {
+    fun setFavoriteMovie() = runBlocking {
         val dataDummy = DataDummy.generateDummyMeal()
 
         Mockito.`when`(getFavoriteMealByIdUsecase(dataDummy.idMeal)).thenReturn(dataDummy)
         viewModel.setFavoriteMovie(dataDummy)
         Mockito.verify(getFavoriteMealByIdUsecase).invoke(dataDummy.idMeal)
         Mockito.verify(setFavoriteMealUseCase).invoke(dataDummy,!dataDummy.isFavorite)
-        Mockito.verify(addFavoriteMealUseCase).invoke(dataDummy)
-
 
     }
-//    @Test
-//    fun setNewFavoriteMeal():Unit = runTest {
-//        val dataDummy = DataDummy.generateDummyMeal()
-//
-//        Mockito.`when`(getFavoriteMealByIdUsecase(dataDummy.idMeal)).thenReturn(dataDummy)
-//        viewModel.setFavoriteMovie(dataDummy)
-//        Mockito.verify(getFavoriteMealByIdUsecase).invoke(dataDummy.idMeal)
-//        Mockito.verify(addFavoriteMealUseCase).invoke(dataDummy)
-//
-//
-//    }
+    @Test
+    fun setNewFavoriteMeal():Unit = runBlocking {
+        val dataDummy = DataDummy.generateDummyMeal()
+        Mockito.`when`(getFavoriteMealByIdUsecase(Mockito.anyInt())).thenReturn(null)
+        viewModel.setFavoriteMovie(dataDummy)
+        Mockito.verify(getFavoriteMealByIdUsecase).invoke(1)
+        Mockito.verify(addFavoriteMealUseCase).invoke(dataDummy)
+    }
 
 
 

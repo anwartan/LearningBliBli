@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.learningblibli.data.source.local.room.MealDao
 import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.remote.network.ApiService
+import com.example.learningblibli.lib_api.service.ApiService
 import com.example.learningblibli.domain.model.Meal
 import com.example.learningblibli.domain.repository.IMealRepository
 import com.example.learningblibli.utils.mapper.MealMapper
@@ -14,11 +14,11 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MealRepository @Inject constructor(private val apiService: ApiService,private val mealDao: MealDao):IMealRepository {
+class MealRepository @Inject constructor(private val apiService: ApiService, private val mealDao: MealDao):IMealRepository {
 
     override fun getAllMealsByFirstLetter(firstLetter: String): Observable<Resource<List<Meal>>> {
         return apiService.getAllMealsByFirstLetter(firstLetter).map {
-            if(it.meals==null || it.meals.isEmpty()){
+            if(it.meals==null || it.meals.orEmpty().isEmpty()){
                 Resource.Error("EMPTY")
             }else{
                 Resource.Success(MealMapper.mapListMealResponseToListMeal(it))
@@ -31,7 +31,7 @@ class MealRepository @Inject constructor(private val apiService: ApiService,priv
     override fun getMealDetail(id: Int): Observable<Resource<Meal>> {
         return apiService.getMealDetail(id)
             .map {
-               if(it.meals==null || it.meals.isEmpty()){
+               if(it.meals==null ||  it.meals.orEmpty().isEmpty()){
                    Resource.Error("EMPTY")
                }else{
                    Resource.Success(MealMapper.mapListMealResponseToListMeal(it)[0])
@@ -44,7 +44,7 @@ class MealRepository @Inject constructor(private val apiService: ApiService,priv
     override fun searchMeal(name: String): Observable<Resource<List<Meal>>> {
         return apiService.searchMeal(name)
             .map {
-                if(it.meals==null || it.meals.isEmpty()){
+                if(it.meals==null || it.meals.orEmpty().isEmpty()){
                     Resource.Error("EMPTY")
                 }else{
                     Resource.Success(MealMapper.mapListMealResponseToListMeal(it))
@@ -56,17 +56,15 @@ class MealRepository @Inject constructor(private val apiService: ApiService,priv
 
 
     override suspend fun setFavoriteMeal(meal: Meal, status: Boolean) {
-        CoroutineScope(IO).launch{
-            mealDao.setFavoriteById(meal.idMeal,status)
-        }
+        mealDao.setFavoriteById(meal.idMeal,status)
     }
 
     override suspend fun insertFavoriteMeal(meal: Meal) {
-        CoroutineScope(IO).launch{
+
             val mealEntity=MealMapper.mapModelToEntity(meal)
             mealEntity.isFavorite=true
             mealDao.insertMeal(mealEntity)
-        }
+
     }
 
     override suspend fun getFavoriteMealById(id: Int): Meal? {

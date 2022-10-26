@@ -1,6 +1,7 @@
-package com.example.learningblibli.data.source.remote.response
+package com.example.learningblibli.lib_model
 
 import com.google.gson.annotations.SerializedName
+
 
 data class MealResponse(
 	@field:SerializedName("idMeal")

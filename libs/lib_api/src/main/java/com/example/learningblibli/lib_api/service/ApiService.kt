@@ -1,7 +1,6 @@
-package com.example.learningblibli.data.source.remote.network
+package com.example.learningblibli.lib_api.service
 
-import com.example.learningblibli.data.source.remote.response.ListMealResponse
-import io.reactivex.Flowable
+import com.example.learningblibli.lib_model.ListMealResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

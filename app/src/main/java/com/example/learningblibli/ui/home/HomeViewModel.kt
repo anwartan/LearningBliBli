@@ -21,8 +21,7 @@ class HomeViewModel @Inject constructor (
     @Inject
     lateinit var appSharedPreferences: AppSharedPreferences
 
-    @Inject
-    lateinit var sharedPreferences: AppSharedPreferences
+
 
     private val _meals =MutableLiveData<Resource<List<Meal>>>()
     val meals :LiveData<Resource<List<Meal>>> get() = _meals
