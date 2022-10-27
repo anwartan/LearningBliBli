@@ -1,7 +1,7 @@
 package com.example.learningblibli.data
 
-import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.data.source.remote.network.ApiResponse
+import com.example.learningblibli.core.data.source.remote.Resource
+import com.example.learningblibli.core.data.source.remote.network.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

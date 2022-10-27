@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.learningblibli.R
 import com.example.learningblibli.databinding.ItemListMealVerticalBinding
-import com.example.learningblibli.domain.model.Meal
+import com.example.learningblibli.core.domain.model.Meal
 import com.example.learningblibli.utils.CustomDiffUtilCallback
 
 class MealVerticalAdapter: RecyclerView.Adapter<MealVerticalAdapter.ViewHolder>() {
@@ -27,7 +27,7 @@ class MealVerticalAdapter: RecyclerView.Adapter<MealVerticalAdapter.ViewHolder>(
     inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
         private val binding = ItemListMealVerticalBinding.bind(itemView)
 
-        fun bind(data:Meal){
+        fun bind(data: Meal){
             data.let {
                 Glide.with(itemView.context)
                     .load(data.strMealThumb)

@@ -10,11 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
-import com.example.learningblibli.base.BaseFragment
-import com.example.learningblibli.data.source.remote.Resource
+import com.example.learningblibli.core.base.BaseFragment
+import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentHomeBinding
 import com.example.learningblibli.ui.adapter.MealAdapter
-import com.example.learningblibli.ui.detail.DetailFragment
+import com.example.learningblibli.feature_detail.ui.DetailFragment
 import com.example.learningblibli.ui.login.AuthViewModel
 import javax.inject.Inject
 

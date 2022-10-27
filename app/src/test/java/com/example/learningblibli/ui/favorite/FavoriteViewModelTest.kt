@@ -2,7 +2,7 @@ package com.example.learningblibli.ui.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.example.learningblibli.domain.usecase.GetFavoriteMealUsecase
+import com.example.learningblibli.core.domain.usecase.GetFavoriteMealUsecase
 import com.example.learningblibli.utils.DataDummy
 import com.example.learningblibli.utils.getOrAwaitValue
 import org.junit.*

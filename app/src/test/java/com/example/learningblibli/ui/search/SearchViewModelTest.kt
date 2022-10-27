@@ -1,11 +1,12 @@
 package com.example.learningblibli.ui.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.domain.model.Meal
-import com.example.learningblibli.domain.usecase.SearchMealUseCase
+import com.example.learningblibli.core.data.source.remote.Resource
+import com.example.learningblibli.core.domain.model.Meal
+import com.example.learningblibli.core.domain.usecase.SearchMealUseCase
 import com.example.learningblibli.utils.DataDummy
 import com.example.learningblibli.utils.getOrAwaitValue
+
 import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins

@@ -1,10 +1,10 @@
 package com.example.learningblibli.ui.search
 
 import androidx.lifecycle.*
-import com.example.learningblibli.base.BaseViewModel
-import com.example.learningblibli.data.source.remote.Resource
-import com.example.learningblibli.domain.model.Meal
-import com.example.learningblibli.domain.usecase.SearchMealUseCase
+import com.example.learningblibli.core.base.BaseViewModel
+import com.example.learningblibli.core.data.source.remote.Resource
+import com.example.learningblibli.core.domain.model.Meal
+import com.example.learningblibli.core.domain.usecase.SearchMealUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

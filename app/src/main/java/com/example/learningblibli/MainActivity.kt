@@ -12,12 +12,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.learningblibli.base.BaseActivity
-import com.example.learningblibli.data.source.sharedpreferences.AppSharedPreferences
+import com.example.learningblibli.core.base.BaseActivity
+import com.example.learningblibli.core.data.sharedPreferences.AppSharedPreferences
 
 import com.example.learningblibli.databinding.ActivityMainBinding
 import com.example.learningblibli.ui.login.AuthViewModel
-import com.example.learningblibli.utils.Constants
+import com.example.learningblibli.core.utils.Constants
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     @Inject
-    lateinit var sharedPreferences:AppSharedPreferences
+    lateinit var sharedPreferences: AppSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

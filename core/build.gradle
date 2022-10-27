@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+apply from: '../shared_dependencies.gradle'
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "API_URL", "\"https://www.themealdb.com/api/json/v1/1/\""
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kover {
+        runAllTestsForProjectTask = true
+    }
+}
+
+dependencies {
+    implementation project(":lib_api")
+    implementation project(":lib_model")
+
+    api "androidx.room:room-runtime:$room"
+    kapt "androidx.room:room-compiler:$room"
+    api "androidx.room:room-ktx:$room"
+
+    //rxjava+retrofit
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+
+    implementation "com.google.firebase:firebase-auth:$firebase"
+
+
+
+    api "androidx.lifecycle:lifecycle-reactivestreams-ktx:$life_cycle"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$life_cycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$life_cycle"
+    //data source
+    implementation "androidx.datastore:datastore-preferences:$data_store"
+
+}

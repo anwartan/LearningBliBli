@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.learningblibli.MyApplication
-import com.example.learningblibli.base.BaseFragment
-import com.example.learningblibli.data.source.remote.Resource
+import com.example.learningblibli.core.base.BaseFragment
+import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentRegisterBinding
 import com.example.learningblibli.ui.login.AuthViewModel
 import javax.inject.Inject
@@ -52,6 +52,7 @@ class RegisterFragment : BaseFragment() {
                     }
                 }
 
+                else -> {}
             }
         }
 

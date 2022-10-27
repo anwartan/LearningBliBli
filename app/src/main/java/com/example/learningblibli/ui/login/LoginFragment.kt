@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
-import com.example.learningblibli.base.BaseFragment
+import com.example.learningblibli.core.base.BaseFragment
 import com.example.learningblibli.databinding.FragmentLoginBinding
 import javax.inject.Inject
 

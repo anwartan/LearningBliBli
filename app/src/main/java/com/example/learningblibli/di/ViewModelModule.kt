@@ -2,8 +2,8 @@ package com.example.learningblibli.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.learningblibli.ui.ViewModelFactory
-import com.example.learningblibli.ui.detail.DetailViewModel
+import com.example.learningblibli.core.di.ViewModelKey
+import com.example.learningblibli.core.ui.ViewModelFactory
 import com.example.learningblibli.ui.favorite.FavoriteViewModel
 import com.example.learningblibli.ui.home.HomeViewModel
 import com.example.learningblibli.ui.login.AuthViewModel
@@ -20,10 +20,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     abstract fun provideHomeViewModel(homeViewModel: HomeViewModel):ViewModel
-    @Binds
-    @IntoMap
-    @ViewModelKey(DetailViewModel::class)
-    abstract fun provideDetailViewModel(detailViewModel: DetailViewModel):ViewModel
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(DetailViewModel::class)
+//    abstract fun provideDetailViewModel(detailViewModel: DetailViewModel):ViewModel
     @Binds
     @IntoMap
     @ViewModelKey(FavoriteViewModel::class)

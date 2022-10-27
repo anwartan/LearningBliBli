@@ -1,13 +1,11 @@
 package com.example.learningblibli.utils
 
-import com.example.learningblibli.data.source.local.entity.MealEntity
-import com.example.learningblibli.lib_model.ListMealResponse
-import com.example.learningblibli.lib_model.MealResponse
-import com.example.learningblibli.domain.model.Meal
-import com.example.learningblibli.utils.mapper.MealMapper
+import com.example.learningblibli.core.data.source.local.entity.MealEntity
+import com.example.learningblibli.core.domain.model.Meal
+import com.example.learningblibli.core.utils.mapper.MealMapper
 
 object DataDummy {
-    fun generateMealEntity():MealEntity{
+    fun generateMealEntity(): MealEntity {
         return MealEntity(
             1,
             strMealThumb = "https://www.themealdb.com/images/media/meals/wxywrq1468235067.jpg",
@@ -17,7 +15,7 @@ object DataDummy {
             isFavorite = true
         )
     }
-    fun generateDummyMeal():Meal{
+    fun generateDummyMeal(): Meal {
         return MealMapper.mapEntityToModel(generateMealEntity())
     }
     fun generateDummyMeals(): List<Meal> {
