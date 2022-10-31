@@ -15,6 +15,8 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/features/feature_detail" />
             <option value="$PROJECT_DIR$/features/feature_favorite" />
+            <option value="$PROJECT_DIR$/features/feature_search" />
+            <option value="$PROJECT_DIR$/features/feature_setting" />
             <option value="$PROJECT_DIR$/libs/lib_api" />
             <option value="$PROJECT_DIR$/libs/lib_model" />
           </set>

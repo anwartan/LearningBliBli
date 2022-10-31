@@ -1,4 +1,4 @@
-package com.example.learningblibli.ui.search
+package com.example.learningblibli.feature_search.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.learningblibli.R
 import com.example.learningblibli.core.adapter.MealVerticalAdapter
 import com.example.learningblibli.core.base.BaseFragment
-import com.example.learningblibli.databinding.FragmentSearchBinding
 import com.example.learningblibli.feature_detail.ui.DetailFragment
+import com.example.learningblibli.feature_search.R
+import com.example.learningblibli.feature_search.databinding.FragmentSearchBinding
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -118,7 +118,7 @@ class SearchFragment : BaseFragment() {
             val bundle = bundleOf(
                 DetailFragment.MEAL to it
             )
-            findNavController().navigate(R.id.detailFragment,bundle)
+            findNavController().navigate(com.example.learningblibli.feature_detail.R.id.detailFragment,bundle)
 
         }
         mealVerticalAdapter = newMealVerticalAdapter

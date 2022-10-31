@@ -59,6 +59,9 @@ dependencies {
     implementation project(":lib_model")
     implementation project(":feature_detail")
     implementation project(":feature_favorite")
+    implementation project(":feature_search")
+    implementation project(":feature_setting")
+
 
     implementation "com.google.firebase:firebase-auth:$firebase"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

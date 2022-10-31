@@ -1,4 +1,4 @@
-package com.example.learningblibli.ui.search
+package com.example.learningblibli.feature_search.ui
 
 import androidx.lifecycle.*
 import com.example.learningblibli.core.base.BaseViewModel

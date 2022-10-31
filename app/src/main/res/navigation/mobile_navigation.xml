@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.learningblibli.ui.search.SearchFragment"
+        android:name="com.example.learningblibli.feature_search.ui.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
@@ -43,7 +43,7 @@
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.learningblibli.ui.setting.SettingFragment"
+        android:name="com.example.learningblibli.feature_setting.ui.SettingFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_setting" />
 

@@ -1,10 +1,10 @@
-package com.example.learningblibli.ui.setting
+package com.example.learningblibli.feature_setting.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.data.sharedPreferences.AppSharedPreferences
 import com.example.learningblibli.core.utils.Constants
-import com.example.learningblibli.utils.getOrAwaitValue
+import com.example.learningblibli.feature_setting.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

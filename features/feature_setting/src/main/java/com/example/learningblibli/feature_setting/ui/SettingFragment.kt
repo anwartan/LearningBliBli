@@ -1,4 +1,4 @@
-package com.example.learningblibli.ui.setting
+package com.example.learningblibli.feature_setting.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.learningblibli.databinding.FragmentSettingBinding
+import com.example.learningblibli.feature_setting.databinding.FragmentSettingBinding
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class SettingFragment : Fragment() {
 
-    private var _binding:FragmentSettingBinding? = null
+    private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: SettingViewModel

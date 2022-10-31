@@ -25,3 +25,8 @@ project(':feature_detail').projectDir = new File("./features/feature_detail")
 include ':core'
 include ':feature_favorite'
 project(':feature_favorite').projectDir = new File("./features/feature_favorite")
+include ':feature_search'
+project(':feature_search').projectDir = new File("./features/feature_search")
+include ':feature_setting'
+project(':feature_setting').projectDir = new File("./features/feature_setting")
+

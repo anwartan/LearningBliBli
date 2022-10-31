@@ -1,4 +1,4 @@
-package com.example.learningblibli.ui.setting
+package com.example.learningblibli.feature_setting.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
