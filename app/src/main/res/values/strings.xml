@@ -18,7 +18,7 @@
     <string name="now_playing">Now Playing</string>
     <string name="detail_movie">Detail Movie</string>
     <string name="overview">Overview</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="search">Search</string>
     <string name="hint">Hint</string>
     <string name="login">Login</string>
@@ -29,5 +29,8 @@
     <string name="back_to_login">Back to Login</string>
     <string name="logout">Logout</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
     <string name="your_meals">Your Meals</string>
+    <string name="recommendation_meals">Recommendation Meals</string>
+    <string name="new_meals">New Meals</string>
 </resources>

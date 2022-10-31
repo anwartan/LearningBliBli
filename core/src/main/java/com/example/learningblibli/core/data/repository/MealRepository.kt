@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.learningblibli.core.data.source.local.room.MealDao
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.model.Meal
+import com.example.learningblibli.lib_model.model.Meal
 import com.example.learningblibli.core.domain.repository.IMealRepository
 import com.example.learningblibli.core.utils.mapper.MealMapper
 import com.example.learningblibli.lib_api.service.ApiService
@@ -42,12 +42,15 @@ class MealRepository @Inject constructor(private val apiService: ApiService, pri
 
     override fun searchMeal(name: String): Observable<Resource<List<Meal>>> {
         return apiService.searchMeal(name)
+
             .map {
+
                 if(it.meals==null || it.meals.orEmpty().isEmpty()){
                     Resource.Error("EMPTY")
                 }else{
                     Resource.Success(MealMapper.mapListMealResponseToListMeal(it))
                 }
+
             }.onErrorReturn {
                 Resource.Error(it.message?:"SERVER ERROR")
             }

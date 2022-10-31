@@ -13,10 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/feature_detail" />
-            <option value="$PROJECT_DIR$/lib_model" />
+            <option value="$PROJECT_DIR$/features/feature_detail" />
+            <option value="$PROJECT_DIR$/features/feature_favorite" />
             <option value="$PROJECT_DIR$/libs/lib_api" />
-            <option value="$PROJECT_DIR$/sharedPreferences" />
+            <option value="$PROJECT_DIR$/libs/lib_model" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -19,7 +20,9 @@ abstract class BaseFragment : Fragment(),MenuProvider {
     fun showLoadingDialog() {
 
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(requireActivity())
+            activity?.let {
+                loadingDialog = LoadingDialog(it)
+            }
         }
         loadingDialog?.let {
             loadingDialog?.show()
@@ -28,11 +31,15 @@ abstract class BaseFragment : Fragment(),MenuProvider {
     }
     fun hideLoadingDialog(){
         loadingDialog?.let {
-            it.dismisDialog()
+            it.dismissDialog()
             loadingDialog = null
         }
-
     }
+
+    fun showToast(message:String){
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,8 +47,10 @@ abstract class BaseFragment : Fragment(),MenuProvider {
     }
 
     private fun setupMenuProvider() {
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.RESUMED)
+        activity?.let {
+            val menuHost: MenuHost = it
+            menuHost.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.STARTED)
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -53,4 +62,6 @@ abstract class BaseFragment : Fragment(),MenuProvider {
         }
         return true
     }
+
+
 }

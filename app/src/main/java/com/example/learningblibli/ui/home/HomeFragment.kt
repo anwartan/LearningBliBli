@@ -1,37 +1,38 @@
 package com.example.learningblibli.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.learningblibli.MyApplication
 import com.example.learningblibli.R
 import com.example.learningblibli.core.base.BaseFragment
-import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentHomeBinding
-import com.example.learningblibli.ui.adapter.MealAdapter
 import com.example.learningblibli.feature_detail.ui.DetailFragment
+import com.example.learningblibli.lib_model.model.Meal
+import com.example.learningblibli.ui.adapter.MealAdapter
 import com.example.learningblibli.ui.login.AuthViewModel
+import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
-
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
     private val authViewModel: AuthViewModel by activityViewModels {
         factory
     }
-    private var mealAdapter: MealAdapter? = null
+    private lateinit var mealAdapter: MealAdapter
+    private lateinit var recommendationMealAdapter: MealAdapter
+    private lateinit var newMealAdapter: MealAdapter
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
-
-    private var isActive = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,96 +43,100 @@ class HomeFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
         setupHomeViewModel()
         setUpMealAdapter()
         setUpMealRecyclerView()
         getObserveMeals()
-        getObserveTheme()
+        getSharedFlowError()
     }
 
-    private fun getObserveTheme() {
-        homeViewModel.getThemeSettings().observe(viewLifecycleOwner){
-            if (it) {
-                isActive=it
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                isActive=it
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    private fun getSharedFlowError() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            homeViewModel.error.collectLatest {
+                showToast(it)
             }
         }
     }
-
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         super.onCreateMenu(menu, menuInflater)
-        menuInflater.inflate(R.menu.main,menu)
+        menuInflater.inflate(R.menu.main, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-
-        if(menuItem.itemId==R.id.menu_logout){
-            authViewModel.logout()
-            return true
+        return when (menuItem.itemId) {
+            R.id.menu_logout -> {
+                authViewModel.logout()
+                true
+            }
+            R.id.action_settings -> {
+                findNavController().navigate(R.id.settingFragment)
+                true
+            }
+            else -> super.onMenuItemSelected(menuItem)
         }
-        else if(menuItem.itemId==R.id.action_settings){
-            homeViewModel.saveThemeSetting(!isActive)
-            return true
-        }
-
-        return super.onMenuItemSelected(menuItem)
     }
-
 
     private fun setupHomeViewModel() {
         homeViewModel =
-            ViewModelProvider(this,factory)[HomeViewModel::class.java]
+            ViewModelProvider(this, factory)[HomeViewModel::class.java]
     }
 
     private fun setUpMealRecyclerView() {
-        with(binding.rvMeal){
-            mealAdapter?.let {
-                this.adapter=mealAdapter
-                this.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-            }
+        with(binding.rvMeal) {
+            adapter = mealAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+        with(binding.rvRecommendationMeals) {
+            adapter = recommendationMealAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+        with(binding.rvNewMeals) {
+            adapter = newMealAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
     private fun getObserveMeals() {
         homeViewModel.getMeals()
-        homeViewModel.meals.observe(viewLifecycleOwner){
-            when (it) {
-                is Resource.Loading -> {
+        homeViewModel.getRecommendationMeals()
+        homeViewModel.getNewMeals()
+        homeViewModel.meals.observe(viewLifecycleOwner) {
+            mealAdapter.setData(it)
+        }
 
-                }
-                is Resource.Success -> {
-                    mealAdapter?.run {
-                        this.setData(it.data)
-                    }
-                }
-                is Resource.Error -> {
-
-                }
-            }
+        homeViewModel.recommendationMeal.observe(viewLifecycleOwner) {
+            recommendationMealAdapter.setData(it)
+        }
+        homeViewModel.newMeals.observe(viewLifecycleOwner) {
+            newMealAdapter.setData(it)
         }
 
     }
 
-
     private fun setUpMealAdapter() {
-        if(mealAdapter==null){
-            val newMealAdapter = MealAdapter()
-            newMealAdapter.onItemClick = {
-                val bundle = bundleOf(
-                    DetailFragment.MEAL to it
-                )
-                findNavController().navigate(R.id.detailFragment,bundle)
-            }
-            mealAdapter=newMealAdapter
-        }
 
+        val onItemClick: (Meal) -> Unit = {
+            val bundle = bundleOf(
+                DetailFragment.MEAL to it
+            )
+            findNavController().navigate(R.id.detailFragment, bundle)
+        }
+        mealAdapter = MealAdapter()
+        mealAdapter.onItemClick = onItemClick
+
+        recommendationMealAdapter = MealAdapter()
+        recommendationMealAdapter.onItemClick = onItemClick
+
+        newMealAdapter = MealAdapter()
+        newMealAdapter.onItemClick = onItemClick
 
     }
 

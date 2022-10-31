@@ -35,6 +35,9 @@ android {
     kover {
         runAllTestsForProjectTask = true
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,12 +53,12 @@ dependencies {
 
     implementation "com.google.firebase:firebase-auth:$firebase"
 
-
-
     api "androidx.lifecycle:lifecycle-reactivestreams-ktx:$life_cycle"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$life_cycle"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$life_cycle"
     //data source
     implementation "androidx.datastore:datastore-preferences:$data_store"
+    testImplementation "junit:junit:$junitTest"
+
 
 }

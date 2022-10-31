@@ -1,6 +1,6 @@
 package com.example.learningblibli.lib_api.service
 
-import com.example.learningblibli.lib_model.ListMealResponse
+import com.example.learningblibli.lib_model.response.ListMealResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

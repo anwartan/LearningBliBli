@@ -1,6 +1,5 @@
 package com.example.learningblibli.core.domain.usecase
 
-import com.example.learningblibli.core.domain.usecase.SetFavoriteMealUseCase
 import com.example.learningblibli.core.data.repository.MealRepository
 import com.example.learningblibli.core.utils.DataDummy
 import kotlinx.coroutines.runBlocking

@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.learningblibli.ui.favorite.FavoriteFragment"
+        android:name="com.example.learningblibli.feature_favorite.ui.FavoriteFragment"
         android:label="@string/favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.learningblibli.ui.login.LoginFragment"
-        android:label="Login"
+        android:label="@string/login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -39,7 +39,12 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.learningblibli.ui.register.RegisterFragment"
-        android:label="Register"
+        android:label="@string/register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.learningblibli.ui.setting.SettingFragment"
+        android:label="@string/action_settings"
+        tools:layout="@layout/fragment_setting" />
 
 </navigation>

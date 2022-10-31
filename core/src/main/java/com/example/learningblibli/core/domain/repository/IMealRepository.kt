@@ -2,7 +2,7 @@ package com.example.learningblibli.core.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.model.Meal
+import com.example.learningblibli.lib_model.model.Meal
 import io.reactivex.Observable
 
 interface IMealRepository {

@@ -7,7 +7,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,17 +19,7 @@ class NetworkModule {
 
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        val interceptor = Interceptor { chain ->
-            val request = chain.request()
 
-            val newUrl = request.url.newBuilder().addQueryParameter(
-                ApiConfig.API_KEY_QUERY,
-                ApiConfig.API_KEY
-            ).build()
-            val requestBuilder = request.newBuilder().url(newUrl)
-
-            chain.proceed(requestBuilder.build())
-        }
         val loggingInterceptor = if(BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         }else {
@@ -38,7 +27,6 @@ class NetworkModule {
         }
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(interceptor)
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
@@ -54,7 +42,7 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()
-        return retrofit.create(com.example.learningblibli.lib_api.service.ApiService::class.java)
+        return retrofit.create(ApiService::class.java)
     }
 
     @Provides

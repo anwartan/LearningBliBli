@@ -1,9 +1,11 @@
 package com.example.learningblibli.core.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.data.source.local.room.MealDao
 import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.core.utils.DataDummy
+import com.example.learningblibli.core.utils.getOrAwaitValue
 import com.example.learningblibli.core.utils.mapper.MealMapper
 import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -11,9 +13,9 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.*
 import org.junit.runner.RunWith
@@ -98,7 +100,7 @@ class MealRepositoryTest{
     }
 
     @Test
-    fun setFavoriteMeal() = runBlocking{
+    fun setFavoriteMeal() = runTest{
         val dummyMeal = DataDummy.generateDummyMeal()
         mealRepository.setFavoriteMeal(dummyMeal,false)
 
@@ -106,7 +108,7 @@ class MealRepositoryTest{
     }
 
     @Test
-    fun insertFavoriteMeal() = runBlocking{
+    fun insertFavoriteMeal() = runTest{
         val dummyMealEntity = DataDummy.generateMealEntity()
         val dummyMeal = MealMapper.mapEntityToModel(dummyMealEntity)
         mealRepository.insertFavoriteMeal(dummyMeal)
@@ -114,7 +116,7 @@ class MealRepositoryTest{
     }
 
     @Test
-    fun getFavoriteMealById():Unit = runBlocking{
+    fun getFavoriteMealById() = runTest{
         val dummyMealEntity = DataDummy.generateMealEntity()
         val dummyMeal = MealMapper.mapEntityToModel(dummyMealEntity)
         Mockito.`when`(mealDao.getMealById(dummyMealEntity.idMeal)).thenReturn(dummyMealEntity)
@@ -122,5 +124,16 @@ class MealRepositoryTest{
         Assert.assertNotNull(actual)
         Assert.assertEquals(actual,dummyMeal)
         Mockito.verify(mealDao).getMealById(dummyMealEntity.idMeal)
+    }
+
+    @Test
+    fun getFavoriteMeals() = runTest {
+        val dummyMealEntities = DataDummy.generateMealEntities()
+        val expectResult = MutableLiveData(dummyMealEntities)
+        Mockito.`when`(mealDao.getFavoriteMeals()).thenReturn(expectResult)
+        val actual = mealRepository.getFavoriteMeals().getOrAwaitValue()
+        Assert.assertEquals(dummyMealEntities.size,actual.size)
+        Assert.assertEquals(dummyMealEntities[0].idMeal,actual[0].idMeal)
+        Mockito.verify(mealDao).getFavoriteMeals()
     }
 }

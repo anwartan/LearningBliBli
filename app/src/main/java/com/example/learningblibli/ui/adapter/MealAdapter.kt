@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.learningblibli.R
 import com.example.learningblibli.databinding.ItemListMealBinding
-import com.example.learningblibli.core.domain.model.Meal
-import com.example.learningblibli.utils.CustomDiffUtilCallback
+import com.example.learningblibli.lib_model.model.Meal
+import com.example.learningblibli.core.utils.CustomDiffUtilCallback
 
 class MealAdapter:RecyclerView.Adapter<MealAdapter.ViewHolder>() {
 

@@ -19,7 +19,7 @@ abstract class BaseActivity:AppCompatActivity() {
     }
     fun hideLoadingDialog(){
         loadingDialog?.let {
-            it.dismisDialog()
+            it.dismissDialog()
             loadingDialog = null
         }
 

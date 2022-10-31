@@ -8,23 +8,24 @@ import com.example.learningblibli.core.R
 
 class LoadingDialog(private val activity:Activity) {
     private var alertDialog: AlertDialog? = null
-    private var isShow:Boolean? = null
     fun show(){
-        val customDialog = AlertDialog.Builder(activity)
-        val inflater = activity.layoutInflater
-        customDialog.setView(inflater.inflate(R.layout.dialog_loading, null))
-        customDialog.setCancelable(false)
-        alertDialog = customDialog.create()
-        alertDialog?.show()
-    }
-    fun isShowing():Boolean{
-        return if(isShow==null){
-            false
-        }else{
-            isShow as Boolean
+        if(!isShowing()){
+            val customDialog = AlertDialog.Builder(activity)
+            val inflater = activity.layoutInflater
+            customDialog.setView(inflater.inflate(R.layout.dialog_loading, null))
+            customDialog.setCancelable(false)
+            alertDialog = customDialog.create()
+            alertDialog?.show()
         }
     }
-    fun dismisDialog() {
+    private fun isShowing():Boolean{
+        return if(alertDialog==null){
+            false
+        }else{
+            alertDialog?.isShowing as Boolean
+        }
+    }
+    fun dismissDialog() {
         alertDialog?.dismiss()
     }
 }

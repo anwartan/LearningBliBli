@@ -9,7 +9,7 @@ import com.example.learningblibli.core.domain.usecase.GetCurrentUserUseCase
 import com.example.learningblibli.core.domain.usecase.LoginByFirebaseUseCase
 import com.example.learningblibli.core.domain.usecase.LogoutByFirebaseUseCase
 import com.example.learningblibli.core.domain.usecase.RegisterByFirebaseUseCase
-import com.google.firebase.auth.FirebaseUser
+import com.example.learningblibli.lib_model.model.User
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,22 +20,19 @@ class AuthViewModel @Inject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val logoutByFirebaseUseCase: LogoutByFirebaseUseCase
     ) : BaseViewModel() {
-    private var _currentUser = MutableLiveData<FirebaseUser?>(null)
-    val currentUser:LiveData<FirebaseUser?> get() = _currentUser
+    private var _currentUser = MutableLiveData<User?>(null)
+    val currentUser:LiveData<User?> get() = _currentUser
 
 
-    init {
-        getCurrentUser()
-    }
-    private fun getCurrentUser()  = viewModelScope.launch {
+
+    fun getCurrentUser()  = viewModelScope.launch {
         _currentUser.postValue(getCurrentUserUseCase())
     }
 
-    private val _loginFlow = MutableLiveData<Resource<FirebaseUser?>>()
+    private val _loginFlow = MutableLiveData<Resource<User?>>()
 
 
     fun loginUser(email: String, password: String) = viewModelScope.launch {
-
         setLoading(true)
         val result = loginByFirebaseUseCase(email, password)
         _loginFlow.value = result
@@ -44,8 +41,8 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    private val _signupFlow = MutableLiveData<Resource<FirebaseUser?>>()
-    val signupFlow: LiveData<Resource<FirebaseUser?>> = _signupFlow
+    private val _signupFlow = MutableLiveData<Resource<User?>>()
+    val signupFlow: LiveData<Resource<User?>> = _signupFlow
 
     fun register(email: String, password: String) = viewModelScope.launch {
         setLoading(true)

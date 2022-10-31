@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.learningblibli.core.di.ViewModelKey
 import com.example.learningblibli.core.ui.ViewModelFactory
-import com.example.learningblibli.ui.favorite.FavoriteViewModel
 import com.example.learningblibli.ui.home.HomeViewModel
 import com.example.learningblibli.ui.login.AuthViewModel
 import com.example.learningblibli.ui.search.SearchViewModel
+import com.example.learningblibli.ui.setting.SettingViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,14 +20,7 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     abstract fun provideHomeViewModel(homeViewModel: HomeViewModel):ViewModel
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(DetailViewModel::class)
-//    abstract fun provideDetailViewModel(detailViewModel: DetailViewModel):ViewModel
-    @Binds
-    @IntoMap
-    @ViewModelKey(FavoriteViewModel::class)
-    abstract fun provideFavoriteViewModel(favoriteViewModel: FavoriteViewModel):ViewModel
+
     @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
@@ -36,5 +29,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AuthViewModel::class)
     abstract fun provideLoginViewModel(loginViewModel: AuthViewModel):ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingViewModel::class)
+    abstract fun provideSettingViewModel(settingViewModel:  SettingViewModel):ViewModel
 
 }

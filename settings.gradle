@@ -15,9 +15,13 @@ dependencyResolutionManagement {
 rootProject.name = "LearningBliBli"
 
 include ':app'
-include ':sharedPreferences'
 include ':lib_api'
 project(':lib_api').projectDir = new File("./libs/lib_api")
 include ':lib_model'
+project(':lib_model').projectDir = new File("./libs/lib_model")
 include ':feature_detail'
+project(':feature_detail').projectDir = new File("./features/feature_detail")
+
 include ':core'
+include ':feature_favorite'
+project(':feature_favorite').projectDir = new File("./features/feature_favorite")

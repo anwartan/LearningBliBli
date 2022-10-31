@@ -1,5 +1,6 @@
 package com.example.learningblibli.ui.register
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.learningblibli.MyApplication
 import com.example.learningblibli.core.base.BaseFragment
 import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.databinding.FragmentRegisterBinding
 import com.example.learningblibli.ui.login.AuthViewModel
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class RegisterFragment : BaseFragment() {
@@ -33,10 +34,12 @@ class RegisterFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
-
         setupLoginButtonViewModel()
         setupRegisterButtonViewModel()
         getSignUpFlow()
@@ -47,7 +50,7 @@ class RegisterFragment : BaseFragment() {
             when(it){
                 is Resource.Success ->{
                     it.data?.let {
-                        Toast.makeText(context,"User created",Toast.LENGTH_SHORT).show()
+                        showToast("User created")
                         findNavController().popBackStack()
                     }
                 }
@@ -74,6 +77,11 @@ class RegisterFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding=null
     }
 
 

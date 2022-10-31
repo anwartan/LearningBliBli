@@ -55,12 +55,15 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(":core")
-    implementation project(":sharedPreferences")
     implementation project(":lib_api")
     implementation project(":lib_model")
     implementation project(":feature_detail")
+    implementation project(":feature_favorite")
 
     implementation "com.google.firebase:firebase-auth:$firebase"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     testImplementation "junit:junit:$junitTest"
     androidTestImplementation "androidx.test.ext:junit:$junitAndroidTest"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
