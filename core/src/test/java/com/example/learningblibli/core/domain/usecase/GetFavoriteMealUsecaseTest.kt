@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.data.repository.MealRepository
 import com.example.learningblibli.core.utils.DataDummy
 import com.example.learningblibli.core.utils.getOrAwaitValue
+import com.example.learningblibli.core.utils.mapper.MealMapper
 import org.junit.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -34,12 +35,13 @@ class GetFavoriteMealUsecaseTest{
 
     @Test
     fun getFavoriteMeal(){
-        val dataDummy =DataDummy.generateDummyMeals()
-        val expectResult = MutableLiveData(dataDummy)
-        Mockito.`when`(mealRepository.getFavoriteMeals()).thenReturn(expectResult)
+        val dataDummy =DataDummy.generateMealEntities()
+        val dataDummyMealModels = MealMapper.mapEntitiesToModels(dataDummy)
+        val expect = MutableLiveData(dataDummy)
+        Mockito.`when`(mealRepository.getFavoriteMeals()).thenReturn(expect)
         val actualResult = getFavoriteMealUsecase().getOrAwaitValue()
-        Assert.assertEquals(dataDummy.size,actualResult.size)
-        Assert.assertEquals(dataDummy[0],actualResult[0])
+        Assert.assertEquals(dataDummyMealModels.size,actualResult.size)
+        Assert.assertEquals(dataDummyMealModels[0],actualResult[0])
         Mockito.verify(mealRepository).getFavoriteMeals()
     }
 

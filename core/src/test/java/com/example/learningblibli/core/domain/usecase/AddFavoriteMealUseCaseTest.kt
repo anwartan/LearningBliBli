@@ -2,6 +2,7 @@ package com.example.learningblibli.core.domain.usecase
 
 import com.example.learningblibli.core.data.repository.MealRepository
 import com.example.learningblibli.core.utils.DataDummy
+import com.example.learningblibli.core.utils.mapper.MealMapper
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -32,8 +33,9 @@ class AddFavoriteMealUseCaseTest{
     @Test
     fun addFavoriteMeal() = runBlocking{
         val meal = DataDummy.generateDummyMeal()
+        val mealEntity = MealMapper.mapModelToEntity(meal)
         addFavoriteMealUseCase(meal)
-        Mockito.verify(mealRepository).insertFavoriteMeal(meal)
+        Mockito.verify(mealRepository).insertFavoriteMeal(mealEntity)
     }
 
 }

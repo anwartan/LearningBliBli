@@ -6,7 +6,7 @@ import com.example.learningblibli.core.domain.usecase.GetCurrentUserUseCase
 import com.example.learningblibli.core.domain.usecase.LoginByFirebaseUseCase
 import com.example.learningblibli.core.domain.usecase.LogoutByFirebaseUseCase
 import com.example.learningblibli.core.domain.usecase.RegisterByFirebaseUseCase
-import com.example.learningblibli.utils.DataDummy
+import com.example.learningblibli.utils.FakeFirebaseUser
 import com.example.learningblibli.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +20,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthViewModelTest {
@@ -61,7 +60,7 @@ class AuthViewModelTest {
 
     @Test
     fun getCurrentUser() {
-        val dummy = DataDummy.generateUser()
+        val dummy = FakeFirebaseUser()
         Mockito.`when`(getCurrentUserUseCase()).thenReturn(dummy)
         authViewModel.getCurrentUser()
         val actual = authViewModel.currentUser.getOrAwaitValue()
@@ -76,7 +75,7 @@ class AuthViewModelTest {
     fun loginUser() = runTest {
         val email = "admin@gmail.com"
         val password = "123456"
-        val dummyData = DataDummy.generateUser()
+        val dummyData =  FakeFirebaseUser()
         Mockito.`when`(getCurrentUserUseCase()).thenReturn(dummyData)
         Mockito.`when`(loginByFirebaseUseCase(email,password)).thenReturn(Resource.Success(dummyData))
         authViewModel.loginUser(email,password)
@@ -93,7 +92,7 @@ class AuthViewModelTest {
     fun register() = runTest {
         val email = "admin@gmail.com"
         val password = "123456"
-        val dummyData = DataDummy.generateUser()
+        val dummyData =  FakeFirebaseUser()
         Mockito.`when`(registerByFirebaseUseCase(email,password)).thenReturn(Resource.Success(dummyData))
         authViewModel.register(email,password)
         val actual = authViewModel.signupFlow.getOrAwaitValue()

@@ -1,83 +1,43 @@
 package com.example.learningblibli.core.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import com.example.learningblibli.core.data.source.local.entity.MealEntity
 import com.example.learningblibli.core.data.source.local.room.MealDao
-import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.lib_model.model.Meal
 import com.example.learningblibli.core.domain.repository.IMealRepository
-import com.example.learningblibli.core.utils.mapper.MealMapper
 import com.example.learningblibli.lib_api.service.ApiService
+import com.example.learningblibli.lib_model.response.ListMealResponse
 import io.reactivex.Observable
 import javax.inject.Inject
-
 
 class MealRepository @Inject constructor(private val apiService: ApiService, private val mealDao: MealDao):
     IMealRepository {
 
-    override fun getAllMealsByFirstLetter(firstLetter: String): Observable<Resource<List<Meal>>> {
-        return apiService.getAllMealsByFirstLetter(firstLetter).map {
-            if(it.meals==null || it.meals.orEmpty().isEmpty()){
-                Resource.Error("EMPTY")
-            }else{
-                Resource.Success(MealMapper.mapListMealResponseToListMeal(it))
-            }
-        }.onErrorReturn {
-            Resource.Error(it.message?:"SERVER ERROR")
-        }
+    override fun getAllMealsByFirstLetter(firstLetter: String): Observable<ListMealResponse> {
+        return apiService.getAllMealsByFirstLetter(firstLetter)
     }
 
-    override fun getMealDetail(id: Int): Observable<Resource<Meal>> {
+    override fun getMealDetail(id: Int): Observable<ListMealResponse> {
         return apiService.getMealDetail(id)
-            .map {
-               if(it.meals==null ||  it.meals.orEmpty().isEmpty()){
-                   Resource.Error("EMPTY")
-               }else{
-                   Resource.Success(MealMapper.mapListMealResponseToListMeal(it)[0])
-               }
-            }.onErrorReturn {
-                Resource.Error(it.message?:"SERVER ERROR")
-            }
     }
 
-    override fun searchMeal(name: String): Observable<Resource<List<Meal>>> {
+    override fun searchMeal(name: String): Observable<ListMealResponse> {
         return apiService.searchMeal(name)
-
-            .map {
-
-                if(it.meals==null || it.meals.orEmpty().isEmpty()){
-                    Resource.Error("EMPTY")
-                }else{
-                    Resource.Success(MealMapper.mapListMealResponseToListMeal(it))
-                }
-
-            }.onErrorReturn {
-                Resource.Error(it.message?:"SERVER ERROR")
-            }
     }
 
 
-    override suspend fun setFavoriteMeal(meal: Meal, status: Boolean) {
-        mealDao.setFavoriteById(meal.idMeal,status)
+    override suspend fun setFavoriteMeal(mealEntity: MealEntity, status: Boolean) {
+        mealDao.setFavoriteById(mealEntity.idMeal,status)
     }
 
-    override suspend fun insertFavoriteMeal(meal: Meal) {
-
-            val mealEntity= MealMapper.mapModelToEntity(meal)
-            mealEntity.isFavorite=true
-            mealDao.insertMeal(mealEntity)
-
+    override suspend fun insertFavoriteMeal(mealEntity: MealEntity) {
+        mealDao.insertMeal(mealEntity)
     }
 
-    override suspend fun getFavoriteMealById(id: Int): Meal? {
-        return  mealDao.getMealById(id)?.let {
-            MealMapper.mapEntityToModel(it)
-        }
+    override suspend fun getFavoriteMealById(id: Int): MealEntity? {
+        return  mealDao.getMealById(id)
     }
 
-    override fun getFavoriteMeals(): LiveData<List<Meal>> {
-        return Transformations.map(mealDao.getFavoriteMeals()) {
-            MealMapper.mapEntitiesToModels(it)
-        }
+    override fun getFavoriteMeals(): LiveData<List<MealEntity>> {
+        return mealDao.getFavoriteMeals()
     }
 }

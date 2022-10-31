@@ -2,19 +2,17 @@ package com.example.learningblibli.core.data.repository
 
 import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.core.domain.repository.IUserRepository
-import com.example.learningblibli.core.utils.mapper.UserMapper
-import com.example.learningblibli.lib_model.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth) :
     IUserRepository {
-    override suspend fun signIn(email: String, password: String): Resource<User?> {
+    override suspend fun signIn(email: String, password: String): Resource<FirebaseUser?> {
        return try {
            val result = suspendCancellableCoroutine { cont->
                firebaseAuth.signInWithEmailAndPassword(email,password)
@@ -27,9 +25,7 @@ class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth
                        }
                    }
            }
-            val user = result.user?.let {
-                UserMapper.mapFirebaseUserToUser(it)
-            }
+            val user = result.user
             return if(user==null){
                 Resource.Error("RESULT EMPTY")
             }else{
@@ -41,7 +37,7 @@ class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth
         }
     }
 
-    override suspend fun signUp(email: String, password: String): Resource<User?> {
+    override suspend fun signUp(email: String, password: String): Resource<FirebaseUser?> {
         return try {
             val result = suspendCancellableCoroutine { cont->
                 firebaseAuth.createUserWithEmailAndPassword(email,password)
@@ -53,9 +49,7 @@ class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth
                         }
                     }
             }
-            val user = result.user?.let {
-                UserMapper.mapFirebaseUserToUser(it)
-            }
+            val user = result.user
             return if(user==null){
                 Resource.Error("RESULT EMPTY")
             }else{
@@ -70,10 +64,7 @@ class AuthRepository @Inject constructor (private val firebaseAuth: FirebaseAuth
         firebaseAuth.signOut()
     }
 
-    override fun getCurrentUser():User? =  firebaseAuth.currentUser?.let {
-        UserMapper.mapFirebaseUserToUser(it)
-    }
-
+    override fun getCurrentUser():FirebaseUser? =  firebaseAuth.currentUser
 
 }
 

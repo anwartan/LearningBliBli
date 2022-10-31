@@ -2,7 +2,6 @@ package com.example.learningblibli.core.domain.usecase
 
 import com.example.learningblibli.core.data.repository.MealRepository
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.lib_model.model.Meal
 import com.example.learningblibli.core.utils.DataDummy
 import io.reactivex.Observable
 import org.junit.After
@@ -32,17 +31,16 @@ class GetMealsByFirstNameUseCaseTest{
 
     @Test
     fun getAllMealsByFirstLetter(){
-        val dataDummy = DataDummy.generateDummyMeals()
-        val expectedMeals = Observable.just( Resource.Success(dataDummy) as Resource<List<Meal>>)
+        val dataDummy = DataDummy.generateDummyListMealResponse()
+        val expectedMeals = Observable.just( dataDummy)
 
         `when`(mealRepository.getAllMealsByFirstLetter("a")).thenReturn(expectedMeals)
         val actualMeals = getMealsByFirstNameUseCase.invoke("a").blockingFirst()
-        verify(mealRepository).getAllMealsByFirstLetter("a")
-        Assert.assertNotNull(actualMeals)
-        Assert.assertTrue(actualMeals is Resource.Success)
-        Assert.assertNotNull((actualMeals as Resource.Success).data)
-        Assert.assertEquals(dataDummy.size, actualMeals.data?.size)
-        Assert.assertEquals(dataDummy[0], actualMeals.data?.get(0))
 
+        Assert.assertTrue(actualMeals is Resource.Success)
+        Assert.assertNotNull(actualMeals.data)
+        Assert.assertEquals(dataDummy.meals?.size, actualMeals.data?.size)
+        Assert.assertEquals(dataDummy.meals?.get(0)?.idMeal, actualMeals.data?.get(0)?.idMeal)
+        verify(mealRepository).getAllMealsByFirstLetter("a")
     }
 }

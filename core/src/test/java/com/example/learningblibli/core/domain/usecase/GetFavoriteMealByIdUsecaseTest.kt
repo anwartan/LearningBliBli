@@ -30,7 +30,7 @@ class GetFavoriteMealByIdUsecaseTest{
     }
     @Test
     fun getFavoriteMealById():Unit = runBlocking{
-        val expectResult = DataDummy.generateDummyMeal()
+        val expectResult = DataDummy.generateMealEntity()
         Mockito.`when`( mealRepository.getFavoriteMealById(1)).thenReturn(expectResult)
         val actualResult = getFavoriteMealByIdUsecase(1)
         Assert.assertNotNull(actualResult)

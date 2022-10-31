@@ -3,10 +3,8 @@ package com.example.learningblibli.core.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.data.source.local.room.MealDao
-import com.example.learningblibli.core.data.source.remote.Resource
 import com.example.learningblibli.core.utils.DataDummy
 import com.example.learningblibli.core.utils.getOrAwaitValue
-import com.example.learningblibli.core.utils.mapper.MealMapper
 import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -23,7 +21,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -61,68 +58,60 @@ class MealRepositoryTest{
     @Test
     fun getAllMealsByFirstLetter(){
         val dataDummy = DataDummy.generateDummyListMealResponse()
-        val expected = MealMapper.mapListMealResponseToListMeal(dataDummy)
         val data = Observable.just(dataDummy)
         Mockito.`when`(apiService.getAllMealsByFirstLetter("a")).thenReturn(data)
         val result = mealRepository.getAllMealsByFirstLetter("a").blockingFirst()
-        Assert.assertTrue(result is Resource.Success)
-        Assert.assertNotNull(result.data)
-        Assert.assertEquals(expected.size,result.data?.size)
-        Assert.assertEquals(expected[0], result.data?.get(0))
+        Assert.assertNotNull(result.meals)
+        Assert.assertEquals(dataDummy.meals?.size,result.meals?.size)
+        Assert.assertEquals(dataDummy.meals?.get(0), result.meals?.get(0))
         Mockito.verify(apiService).getAllMealsByFirstLetter("a")
     }
 
     @Test
     fun getMealDetail(){
         val dataDummy = DataDummy.generateDummyListMealResponse()
-        val expected = MealMapper.mapListMealResponseToListMeal(dataDummy)
         val data = Observable.just(dataDummy)
         Mockito.`when`(apiService.getMealDetail(1)).thenReturn(data)
         val result = mealRepository.getMealDetail(1).blockingFirst()
-        Assert.assertTrue(result is Resource.Success)
-        Assert.assertNotNull(result.data)
-        Assert.assertEquals(expected[0],result.data)
+        Assert.assertNotNull(result.meals)
+        Assert.assertEquals(dataDummy.meals?.size,result.meals?.size)
+        Assert.assertEquals(dataDummy.meals?.get(0), result.meals?.get(0))
         Mockito.verify(apiService).getMealDetail(1)
 
     }
     @Test
     fun searchMeal(){
         val dataDummy = DataDummy.generateDummyListMealResponse()
-        val expected = MealMapper.mapListMealResponseToListMeal(dataDummy)
         val data = Observable.just(dataDummy)
         Mockito.`when`(apiService.searchMeal("a")).thenReturn(data)
         val result = mealRepository.searchMeal("a").blockingFirst()
-        Assert.assertTrue(result is Resource.Success)
-        Assert.assertNotNull(result.data)
-        Assert.assertEquals(expected.size,result.data?.size)
-        Assert.assertEquals(expected[0], result.data?.get(0))
+        Assert.assertNotNull(result.meals)
+        Assert.assertEquals(dataDummy.meals?.size,result.meals?.size)
+        Assert.assertEquals(dataDummy.meals?.get(0), result.meals?.get(0))
         Mockito.verify(apiService).searchMeal("a")
     }
 
     @Test
     fun setFavoriteMeal() = runTest{
-        val dummyMeal = DataDummy.generateDummyMeal()
+        val dummyMeal = DataDummy.generateMealEntity()
         mealRepository.setFavoriteMeal(dummyMeal,false)
-
         Mockito.verify(mealDao).setFavoriteById(dummyMeal.idMeal,false)
     }
 
     @Test
     fun insertFavoriteMeal() = runTest{
         val dummyMealEntity = DataDummy.generateMealEntity()
-        val dummyMeal = MealMapper.mapEntityToModel(dummyMealEntity)
-        mealRepository.insertFavoriteMeal(dummyMeal)
+        mealRepository.insertFavoriteMeal(dummyMealEntity)
         Mockito.verify(mealDao).insertMeal(dummyMealEntity)
     }
 
     @Test
     fun getFavoriteMealById() = runTest{
         val dummyMealEntity = DataDummy.generateMealEntity()
-        val dummyMeal = MealMapper.mapEntityToModel(dummyMealEntity)
         Mockito.`when`(mealDao.getMealById(dummyMealEntity.idMeal)).thenReturn(dummyMealEntity)
         val actual  = mealRepository.getFavoriteMealById(dummyMealEntity.idMeal)
         Assert.assertNotNull(actual)
-        Assert.assertEquals(actual,dummyMeal)
+        Assert.assertEquals(actual,dummyMealEntity)
         Mockito.verify(mealDao).getMealById(dummyMealEntity.idMeal)
     }
 
