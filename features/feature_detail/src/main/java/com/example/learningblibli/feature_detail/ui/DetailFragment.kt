@@ -23,7 +23,6 @@ class DetailFragment : BaseFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private lateinit var meal: com.example.learningblibli.lib_model.model.Meal
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,12 +82,10 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun getArgumentMeal() {
-        val mealArg: com.example.learningblibli.lib_model.model.Meal? = arguments?.getParcelable(MEAL)
+        val mealArg: Int? = arguments?.getString(MEAL)?.toInt()
         mealArg?.let {
-            meal = it
             detailViewModel.getDetailMeal(it)
-            detailViewModel.getFavoriteMeal(it.idMeal)
-            showDetailMeal(it)
+            detailViewModel.getFavoriteMeal(it)
         }
     }
 

@@ -3,10 +3,12 @@ package com.example.learningblibli.ui.home
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learningblibli.R
@@ -124,10 +126,11 @@ class HomeFragment : BaseFragment() {
     private fun setUpMealAdapter() {
 
         val onItemClick: (Meal) -> Unit = {
-            val bundle = bundleOf(
-                DetailFragment.MEAL to it
-            )
-            findNavController().navigate(R.id.detailFragment, bundle)
+
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("https://www.learningblibli.com/detail_fragment/${it.idMeal}".toUri())
+                .build()
+            findNavController().navigate(request)
         }
         mealAdapter = MealAdapter()
         mealAdapter.onItemClick = onItemClick

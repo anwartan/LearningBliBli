@@ -2,7 +2,7 @@ package com.example.learningblibli.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.usecase.GetMealsByFirstNameUseCase
+import com.example.learningblibli.core.domain.usecase.contract.GetMealsByFirstNameUseCase
 import com.example.learningblibli.lib_model.model.Meal
 import com.example.learningblibli.utils.DataDummy
 import com.example.learningblibli.utils.getOrAwaitValue

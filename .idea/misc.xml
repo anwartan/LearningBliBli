@@ -21,7 +21,8 @@
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_setting.xml" value="0.14457831325301204" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_slideshow.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/fragment_watchlist.xml" value="0.1" />
-        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_meal.xml" value="0.22466960352422907" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_meal.xml" value="0.4" />
+        <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_meal_vertical.xml" value="0.2" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_movie.xml" value="0.1" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/layout/item_list_movie_vertical.xml" value="0.24126984126984127" />
         <entry key="..\:/git/LearningBliBli/app/src/main/res/menu/main.xml" value="0.1" />
@@ -35,7 +36,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

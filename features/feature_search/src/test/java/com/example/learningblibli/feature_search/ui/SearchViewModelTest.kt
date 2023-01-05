@@ -2,7 +2,7 @@ package com.example.learningblibli.feature_search.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.usecase.SearchMealUseCase
+import com.example.learningblibli.core.domain.usecase.contract.SearchMealUseCase
 import com.example.learningblibli.feature_search.utils.DataDummy
 import com.example.learningblibli.feature_search.utils.getOrAwaitValue
 import com.example.learningblibli.lib_model.model.Meal

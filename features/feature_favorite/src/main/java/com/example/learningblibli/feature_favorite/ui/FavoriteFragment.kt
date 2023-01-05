@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learningblibli.core.adapter.MealVerticalAdapter
 import com.example.learningblibli.core.base.BaseFragment
-import com.example.learningblibli.feature_detail.ui.DetailFragment
 import com.example.learningblibli.feature_favorite.databinding.FragmentFavoriteBinding
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -56,11 +56,10 @@ class FavoriteFragment : BaseFragment() {
     private fun setupMealVerticalAdapter() {
         val newMealVerticalAdapter = MealVerticalAdapter()
         newMealVerticalAdapter.onItemClick={
-            val bundle = bundleOf(
-                DetailFragment.MEAL to it
-            )
-            findNavController().navigate(com.example.learningblibli.feature_detail.R.id.detailFragment,bundle)
-
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("https://www.learningblibli.com/detail_fragment/${it.idMeal}".toUri())
+                .build()
+            findNavController().navigate(request)
         }
         mealVerticalAdapter = newMealVerticalAdapter
     }

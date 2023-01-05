@@ -37,8 +37,6 @@ android {
 
 dependencies {
     implementation project(":core")
-    implementation project(":lib_model")
-    implementation project(":feature_detail")
 
 
 }

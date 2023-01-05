@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.base.BaseViewModel
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.usecase.GetMealsByFirstNameUseCase
+import com.example.learningblibli.core.domain.usecase.contract.GetMealsByFirstNameUseCase
 import com.example.learningblibli.lib_model.model.Meal
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

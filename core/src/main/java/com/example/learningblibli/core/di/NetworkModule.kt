@@ -3,6 +3,8 @@ package com.example.learningblibli.core.di
 import com.example.learningblibli.core.BuildConfig
 import com.example.learningblibli.core.data.source.remote.network.ApiConfig
 import com.example.learningblibli.lib_api.service.ApiService
+import com.facebook.stetho.okhttp3.StethoInterceptor
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -26,7 +28,9 @@ class NetworkModule {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
         return OkHttpClient.Builder()
+            .addNetworkInterceptor(StethoInterceptor())
             .addInterceptor(loggingInterceptor)
+
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()

@@ -37,7 +37,6 @@ android {
 
 dependencies {
     implementation project(":core")
-    implementation project(path: ':lib_model')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation project(path: ':lib_model')

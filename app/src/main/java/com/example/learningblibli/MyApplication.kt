@@ -2,6 +2,7 @@ package com.example.learningblibli
 
 import android.app.Application
 import com.example.learningblibli.di.DaggerAppComponent
+import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -13,6 +14,7 @@ class MyApplication : Application(), HasAndroidInjector {
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     override fun onCreate() {
         super.onCreate()
+        Stetho.initializeWithDefaults(this)
         DaggerAppComponent.factory().create(applicationContext).inject(this)
 
     }

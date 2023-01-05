@@ -4,14 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learningblibli.core.adapter.MealVerticalAdapter
 import com.example.learningblibli.core.base.BaseFragment
-import com.example.learningblibli.feature_detail.ui.DetailFragment
 import com.example.learningblibli.feature_search.R
 import com.example.learningblibli.feature_search.databinding.FragmentSearchBinding
 import dagger.android.support.AndroidSupportInjection
@@ -21,17 +21,19 @@ import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {
 
-
     private lateinit var searchViewModel: SearchViewModel
-    private var _binding:FragmentSearchBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private var mealVerticalAdapter: MealVerticalAdapter? = null
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        _binding = FragmentSearchBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -61,14 +63,14 @@ class SearchFragment : BaseFragment() {
     private fun getObserverLoading() {
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.loading.collectLatest {
-                if(it) showLoadingDialog()
+                if (it) showLoadingDialog()
                 else hideLoadingDialog()
             }
         }
     }
 
     private fun setupSearchViewModel() {
-        searchViewModel = ViewModelProvider(this,factory)[SearchViewModel::class.java]
+        searchViewModel = ViewModelProvider(this, factory)[SearchViewModel::class.java]
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -78,7 +80,7 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if(menuItem.itemId==R.id.search){
+        if (menuItem.itemId == R.id.search) {
             (menuItem.actionView as SearchView).apply {
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -87,6 +89,7 @@ class SearchFragment : BaseFragment() {
                         }
                         return true
                     }
+
                     override fun onQueryTextChange(newText: String?): Boolean {
                         return true
                     }
@@ -97,16 +100,16 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun getObserverSearchMeal() {
-        searchViewModel.meals.observe(viewLifecycleOwner){
+        searchViewModel.meals.observe(viewLifecycleOwner) {
             mealVerticalAdapter?.setData(it)
         }
     }
 
     private fun setupMealVerticalRecyclerView() {
-        with(binding.rvMeal){
+        with(binding.rvMeal) {
             mealVerticalAdapter?.let {
                 adapter = mealVerticalAdapter
-                layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
     }
@@ -114,11 +117,11 @@ class SearchFragment : BaseFragment() {
     private fun setupMealVerticalAdapter() {
         val newMealVerticalAdapter =
             MealVerticalAdapter()
-        newMealVerticalAdapter.onItemClick={
-            val bundle = bundleOf(
-                DetailFragment.MEAL to it
-            )
-            findNavController().navigate(com.example.learningblibli.feature_detail.R.id.detailFragment,bundle)
+        newMealVerticalAdapter.onItemClick = {
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("https://www.learningblibli.com/detail_fragment/${it.idMeal}".toUri())
+                .build()
+            findNavController().navigate(request)
 
         }
         mealVerticalAdapter = newMealVerticalAdapter
@@ -126,8 +129,7 @@ class SearchFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding=null
+        _binding = null
     }
-
 
 }

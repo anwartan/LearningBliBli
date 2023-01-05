@@ -16,7 +16,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.learningblibli.R
 import com.example.learningblibli.core.base.BaseActivity
-import com.example.learningblibli.core.data.sharedPreferences.AppSharedPreferences
 import com.example.learningblibli.core.utils.Constants
 import com.example.learningblibli.databinding.ActivityMainBinding
 import com.example.learningblibli.ui.login.AuthViewModel
@@ -24,7 +23,6 @@ import dagger.android.AndroidInjection
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -35,8 +33,6 @@ class MainActivity : BaseActivity() {
     }
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    @Inject
-    lateinit var sharedPreferences: AppSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -92,13 +88,13 @@ class MainActivity : BaseActivity() {
         navController = navHostFragment.navController
 
         val hideBottomList = arrayListOf(
-            R.id.detailFragment,
+            com.example.learningblibli.feature_detail.R.id.detailFragment,
             R.id.loginFragment,
             R.id.registerFragment,
             R.id.settingFragment
         )
         val hideToolbar = arrayListOf(
-            R.id.detailFragment,
+            com.example.learningblibli.feature_detail.R.id.detailFragment,
             R.id.loginFragment,
             R.id.registerFragment
         )

@@ -41,12 +41,13 @@ android {
 }
 
 dependencies {
-    implementation project(":lib_api")
-    implementation project(":lib_model")
+    api project(":lib_api")
+    api project(":lib_model")
 
     api "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:$room"
     api "androidx.room:room-ktx:$room"
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
     //rxjava+retrofit
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"

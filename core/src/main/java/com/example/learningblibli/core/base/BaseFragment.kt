@@ -11,8 +11,9 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.learningblibli.core.data.repository.AuthRepository
 import com.example.learningblibli.core.ui.utils.LoadingDialog
-
+import javax.inject.Inject
 
 abstract class BaseFragment : Fragment(),MenuProvider {
     private var loadingDialog: LoadingDialog? = null

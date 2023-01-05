@@ -1,7 +1,5 @@
 package com.example.learningblibli.core.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
@@ -15,7 +13,6 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading

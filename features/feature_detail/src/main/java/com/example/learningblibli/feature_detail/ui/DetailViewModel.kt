@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.learningblibli.core.base.BaseViewModel
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.usecase.AddFavoriteMealUseCase
-import com.example.learningblibli.core.domain.usecase.GetFavoriteMealByIdUsecase
-import com.example.learningblibli.core.domain.usecase.GetMealDetailUseCase
-import com.example.learningblibli.core.domain.usecase.SetFavoriteMealUseCase
+import com.example.learningblibli.core.domain.usecase.contract.*
 import com.example.learningblibli.lib_model.model.Meal
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,7 +16,7 @@ class DetailViewModel @Inject constructor(
     private val getMealDetailUseCase: GetMealDetailUseCase,
     private val setFavoriteMealUseCase: SetFavoriteMealUseCase,
     private val addFavoriteMealUseCase: AddFavoriteMealUseCase,
-    private val getFavoriteMealByIdUsecase: GetFavoriteMealByIdUsecase
+    private val getFavoriteMealByIdUsecase: GetFavoriteMealByIdUseCase
     ) : BaseViewModel() {
 
     private val _detailMeal = MutableLiveData<Resource<Meal>>()
@@ -29,8 +26,8 @@ class DetailViewModel @Inject constructor(
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
 
-    fun getDetailMeal(meal: Meal){
-        val result = getMealDetailUseCase(meal.idMeal)
+    fun getDetailMeal(idMeal: Int){
+        val result = getMealDetailUseCase(idMeal)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {response->

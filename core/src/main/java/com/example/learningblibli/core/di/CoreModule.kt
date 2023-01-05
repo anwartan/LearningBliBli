@@ -2,7 +2,6 @@ package com.example.learningblibli.core.di
 
 import android.content.Context
 import com.example.learningblibli.core.data.sharedPreferences.AppSharedPreferences
-import com.example.learningblibli.core.base.CoroutineContextProvider
 import dagger.Module
 import dagger.Provides
 
@@ -12,8 +11,5 @@ class CoreModule{
     fun provideSharedPreferences(context: Context): AppSharedPreferences {
         return AppSharedPreferences(context)
     }
-    @Provides
-    fun provideCoroutineContextProvider(): CoroutineContextProvider {
-        return CoroutineContextProvider()
-    }
+
 }

@@ -1,0 +1,7 @@
+package com.example.learningblibli.core.domain.usecase.contract
+
+import com.example.learningblibli.lib_model.model.Meal
+
+interface SetFavoriteMealUseCase {
+    suspend operator fun invoke(meal: Meal, newStatus:Boolean)
+}

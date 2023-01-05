@@ -1,10 +1,11 @@
 package com.example.learningblibli.feature_search.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.learningblibli.core.base.BaseViewModel
 import com.example.learningblibli.core.data.source.remote.Resource
+import com.example.learningblibli.core.domain.usecase.contract.SearchMealUseCase
 import com.example.learningblibli.lib_model.model.Meal
-import com.example.learningblibli.core.domain.usecase.SearchMealUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

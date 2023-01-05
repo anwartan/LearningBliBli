@@ -2,10 +2,10 @@ package com.example.learningblibli.ui.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.learningblibli.core.data.source.remote.Resource
-import com.example.learningblibli.core.domain.usecase.GetCurrentUserUseCase
-import com.example.learningblibli.core.domain.usecase.LoginByFirebaseUseCase
-import com.example.learningblibli.core.domain.usecase.LogoutByFirebaseUseCase
-import com.example.learningblibli.core.domain.usecase.RegisterByFirebaseUseCase
+import com.example.learningblibli.core.domain.usecase.contract.GetCurrentUserUseCase
+import com.example.learningblibli.core.domain.usecase.contract.LoginByFirebaseUseCase
+import com.example.learningblibli.core.domain.usecase.contract.LogoutByFirebaseUseCase
+import com.example.learningblibli.core.domain.usecase.contract.RegisterByFirebaseUseCase
 import com.example.learningblibli.utils.FakeFirebaseUser
 import com.example.learningblibli.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
